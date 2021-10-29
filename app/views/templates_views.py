@@ -25,3 +25,10 @@ def login_view():
         return redirect('/')
     return render_template('login.html', status=False)
 
+
+@app_views.route('/register', methods=['POST'])
+def login_view():
+    if request.method == 'GET':
+        return render_template('register.html', status=True)
+
+
