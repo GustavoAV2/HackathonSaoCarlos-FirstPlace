@@ -6,7 +6,7 @@ from typing import Dict, List
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 
-
+#todo add admin user type
 def login(data: Dict) -> Dict:
     try:
         user = get_user_by_email(data.get('email'))
