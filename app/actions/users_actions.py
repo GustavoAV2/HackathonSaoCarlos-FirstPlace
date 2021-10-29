@@ -5,8 +5,11 @@ from werkzeug.security import generate_password_hash
 from typing import Dict, List
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
+from flask_login import LoginManager, current_user
 
-#todo add admin user type
+login_manager = LoginManager()
+
+
 def login(data: Dict) -> Dict:
     try:
         user = get_user_by_email(data.get('email'))
@@ -18,10 +21,14 @@ def login(data: Dict) -> Dict:
             raise LoginError
 
         access_token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=600))
+        load_user
         return {'access_token': access_token}
     except (AttributeError, KeyError, TypeError):
         raise LoginError
 
+@login_manager.user_loader
+def load_user(user_id):
+    return get_user_by_id(user_id)
 
 def create_user(data: Dict) -> User:
     try:
