@@ -11,3 +11,5 @@ SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///../dat
 SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS', True)
 HOST = os.getenv('HOST', 'localhost')
 PORT = os.getenv('PORT', 5000)
+EMAIL = os.getenv('EMAIL', 'bestcenterempreendimentos@gmail.com')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', 'adminsenha1')
