@@ -20,7 +20,7 @@ def login_view():
 
     credentials = request.values
     if login(credentials.get('email'), credentials.get("password")):
-        if credentials.get('admin')
+        if credentials.get('admin'):
             return redirect('/admin')
         return redirect('/')
     return render_template('login.html', status=False)
