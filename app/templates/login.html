@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <form action="/login" name="login" method="post">
+        <div class="login">
+            <p>Email</p>
+            <input name="email" type="text">
+
+            <p>Senha</p>
+            <input name="password" type="password">
+            <br>
+            <br>
+
+            <input type="submit" value="Entrar" class="btn btn-primary">
+
+            {% if not status %}
+            <div style="color:red;">
+                <div role="alert">
+                    Credenciais incorretas!
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -7,30 +7,28 @@ from datetime import timedelta
 from flask_jwt_extended import create_access_token
 
 
-def login(data: Dict) -> Dict:
+def login(email, password) -> Dict or None:
     try:
-        user = get_user_by_email(data.get('email'))
+        user = get_user_by_email(email)
 
-        if not user.active:
-            raise LoginError
+        if user:
+            if not user.verify_password(password) or not user.active:
+                return
 
-        if not user or not user.verify_password(data.get('password')):
-            raise LoginError
-
-        access_token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=600))
-        return {'access_token': access_token}
+            access_token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=600))
+            return {'access_token': access_token}
     except (AttributeError, KeyError, TypeError):
-        raise LoginError
+        return
 
 
-def create_user(data: Dict) -> User:
+def create_user(data: Dict) -> User or None:
     try:
         return save(User(
             email=data.get('email'),
             password=generate_password_hash(data.get('password'))
         ))
     except (AttributeError, KeyError, TypeError):
-        raise LoginError
+        return
 
 
 def update_user(user_id: str, data: Dict) -> User:
