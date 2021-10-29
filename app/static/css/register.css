@@ -1,0 +1,55 @@
+.register{
+    padding: 40px;
+    padding-bottom: 180px;
+    margin: 200px;
+    margin-top: 50px;
+    text-align: center;
+}
+input {
+    background-color: white;
+    width: 50%;
+    margin-bottom: 1.5%;
+    text-align: center;
+    color: black;
+    border: none;
+    outline: none;
+    border-radius: 1px;
+    border-bottom: 2px solid black;
+}
+.alert-danger{
+    margin-right: 150px;
+    margin-left: 150px;
+}
+.btn-primary{
+    margin-bottom: 15px;
+}
+
+/* Animação */
+input:focus {
+    transition: 0.3s;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+    color: black;
+    border-bottom: 2px solid #5fa8d3;
+    background-color: white;
+}
+@keyframes slide-in{
+  from { transform:  translateY(40px);}
+  to { transform:  translateY(0);}
+}
+@keyframes slide-out{
+  from { transform:  translateY(0);}
+  to { transform:  translateY(40px);}
+}
+.slide-enter-active{
+  animation: slide-in 2s ease;
+  transition: opacity 2s;
+}
+.slide-leave-active{
+  animation: slide-out 2s ease;
+  transition: opacity 2s;
+}
+.slide-enter, .slide-leave-to {
+  opacity: 0;
+}

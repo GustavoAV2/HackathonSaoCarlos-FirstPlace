@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hackathon</title>
+
+<!--    <link rel="stylesheet" href="app/css/index.css">-->
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+
+<body>
+    <template>
+        <div class="container">
+            <div class="login">
+                <p>Email</p>
+                <input v-model="user.email" type="text">
+
+                <p>Password</p>
+                <input v-model="user.password" type="password">
+                <br>
+
+                <button @click="loginUser()" class="btn btn-primary">Login</button>
+                <br>
+
+                <div class="spinner-border text-info" role="status" v-if="loading">
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+                <transition name="slide" mode="out-in" appear>
+                    <div role="alert">
+                    </div>
+                </transition>
+            </div>
+        </div>
+    </template>
+
+    {% block body %}
+
+    {% endblock %}
+</body>
+</html>

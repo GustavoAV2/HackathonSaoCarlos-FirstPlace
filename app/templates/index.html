@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+<template>
+    <div class="container">
+        <div class="login">
+            <p>Email</p>
+            <input v-model="user.email" type="text">
+
+            <p>Password</p>
+            <input v-model="user.password" type="password">
+            <br>
+
+            <button @click="loginUser()" class="btn btn-primary">Login</button>
+            <br>
+
+            <div class="spinner-border text-info" role="status" v-if="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+            <transition name="slide" mode="out-in" appear>
+                <div role="alert">
+                </div>
+            </transition>
+        </div>
+    </div>
+</template>
+
+{% endblock %}

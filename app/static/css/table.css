@@ -1,0 +1,33 @@
+.table{
+  text-align: center;
+  margin: none;
+  margin-top: 5px;
+  width: 100%;
+  border: black 2px solid;
+}
+.delete{
+  color: red;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 8px;
+}
+.active{
+  color: green;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 8px;
+}
+.btn-danger{
+  padding: 5px;
+  font-size: 12px;
+}
+.bi{
+  color: white;
+  cursor: pointer;
+}
+
+/* Animação */
+.bi:hover{
+  color: #5fa8d3;
+  cursor: pointer;
+}
