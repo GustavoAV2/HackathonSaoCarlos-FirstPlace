@@ -1,43 +1,39 @@
+from datetime import timedelta
+from typing import Dict, List
+
+from flask_jwt_extended import create_access_token
+from flask_login import LoginManager, login_user
+from werkzeug.security import generate_password_hash
+
 from app.models.users import User
 from database.repository import save, delete, commit
-from app.exceptions import LoginError
-from werkzeug.security import generate_password_hash
-from typing import Dict, List
-from datetime import timedelta
-from flask_jwt_extended import create_access_token
-from flask_login import LoginManager, current_user
 
 login_manager = LoginManager()
 
 
-def login(data: Dict) -> Dict:
+def login(email, password) -> Dict or None:
     try:
-        user = get_user_by_email(data.get('email'))
-
-        if not user.active:
-            raise LoginError
-
-        if not user or not user.verify_password(data.get('password')):
-            raise LoginError
+        user = get_user_by_email(email)
+        print(user)
+        if user:
+            if not user.verify_password(password) or not user.active:
+                return
 
         access_token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=600))
-        load_user
+        login_user(user)
         return {'access_token': access_token}
     except (AttributeError, KeyError, TypeError):
-        raise LoginError
+        return
 
-@login_manager.user_loader
-def load_user(user_id):
-    return get_user_by_id(user_id)
 
-def create_user(data: Dict) -> User:
+def create_user(data: Dict) -> User or None:
     try:
         return save(User(
             email=data.get('email'),
             password=generate_password_hash(data.get('password'))
         ))
     except (AttributeError, KeyError, TypeError):
-        raise LoginError
+        return
 
 
 def update_user(user_id: str, data: Dict) -> User:
@@ -70,3 +66,14 @@ def get_user_by_id(user_id: str) -> User:
 
 def get_user_by_email(email: str) -> User:
     return User.query.filter(User.email == email).first()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    '''
+    Essa função é chamada quando ocorre 'current_user.is_authenticated'
+    :param user_id:
+    :return:
+    '''
+    user = get_user_by_id(user_id)
+    return user

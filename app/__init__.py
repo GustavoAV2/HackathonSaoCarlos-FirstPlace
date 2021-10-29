@@ -29,9 +29,11 @@ def _register_blueprint(app: Flask):
     app.register_blueprint(app_users)
     app.register_blueprint(app_views)
 
+
 def create_admin_view(app):
     admin = Admin(app)
     admin.add_view(AdminView(User, db.session))
+
 
 class AdminView(ModelView):
     def is_accessible(self):
