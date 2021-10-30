@@ -1,8 +1,8 @@
 from app.models.users import User
 from app.actions.groups_actions import get_groups
-from app.actions.client_actions import create_client
 from app.actions.users_actions import login, create_user
 from flask import Blueprint, render_template, request, redirect
+from app.actions.client_actions import create_client, get_client_by_id
 
 app_views = Blueprint('views', __name__)
 
@@ -45,7 +45,28 @@ def register_view():
         return render_template('register_client.html', status=True)
 
     content = request.values
-    create_client(content)
-    # consult_score(content)
-    return render_template('register_client.html', status=True)
+    user = create_client(content)
+    if user:
+        if bool(content.get('spouse')):
+            return redirect(f'/spouse/{user.id}/register')
 
+        # consult_score(content)
+        return render_template('register_client.html', status=True, message="Sua solicitação "
+                               "foi enviada com sucesso!Após a analise você terá a resposta por e-mail.")
+
+    return render_template('register_client.html', status=False, message="Verifique os campos!")
+
+
+@app_views.route('/spouse/<_id>/register', methods=['POST', 'GET'])
+def spouse_register_view(_id):
+    user = get_client_by_id(_id)
+    if user:
+        if request.method == 'GET':
+            return render_template('register_spouse.html', id=_id, status=True)
+
+        content = request.values
+        user: User = create_user(content)
+        if user:
+            return render_template('register_user.html', status=False, message="Sua solicitação "
+                                   "foi enviada com sucesso!Após a analise você terá a resposta por e-mail.")
+    return redirect('/register')
