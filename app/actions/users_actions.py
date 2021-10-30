@@ -1,10 +1,10 @@
-from app.models.users import User
-from database.repository import save, delete, commit
-from app.exceptions import LoginError
-from werkzeug.security import generate_password_hash
 from typing import Dict, List
 from datetime import timedelta
+from app.models.users import User
 from flask_jwt_extended import create_access_token
+from database.repository import save, delete, commit
+from werkzeug.security import generate_password_hash
+from app.actions.groups_actions import get_group_by_name
 
 
 def login(email, password) -> Dict or None:
@@ -23,10 +23,14 @@ def login(email, password) -> Dict or None:
 
 def create_user(data: Dict) -> User or None:
     try:
-        return save(User(
-            email=data.get('email'),
-            password=generate_password_hash(data.get('password'))
-        ))
+        group = get_group_by_name(data.get('group'))
+
+        if group:
+            return save(User(
+                email=data.get('email'),
+                password=generate_password_hash(data.get('password')),
+                group_id=group.id
+            ))
     except (AttributeError, KeyError, TypeError):
         return
 
