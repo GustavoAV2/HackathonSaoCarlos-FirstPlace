@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from app.views.users_views import app_users
 from app.views.templates_views import app_views
+from app.views.upload_file_views import app_upload_file
 
 
 def create_app():
@@ -20,3 +21,4 @@ def create_app():
 def _register_blueprint(app: Flask):
     app.register_blueprint(app_users)
     app.register_blueprint(app_views)
+    app.register_blueprint(app_upload_file)
