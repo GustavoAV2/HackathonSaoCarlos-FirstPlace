@@ -23,6 +23,7 @@ PyJWT = "==1.7.1"
 SQLAlchemy = "==1.3.20"
 Werkzeug = "==1.0.1"
 brutils = "*"
+requests = "*"
 
 [dev-packages]
 
