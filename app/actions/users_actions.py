@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash
 from typing import Dict, List
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
+from app.tools.validate_cep import validate_address
 
 
 def login(email, password) -> Dict or None:
@@ -22,6 +23,7 @@ def login(email, password) -> Dict or None:
 
 
 def create_user(data: Dict) -> User or None:
+    validate_address()
     try:
         return save(User(
             email=data.get('email'),
