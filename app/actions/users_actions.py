@@ -7,21 +7,25 @@ from werkzeug.security import generate_password_hash
 
 from app.models.users import User
 from database.repository import save, delete, commit
+from app.exceptions import LoginError
+from werkzeug.security import generate_password_hash
+from typing import Dict, List
+from datetime import timedelta
+from flask_jwt_extended import create_access_token
 
 login_manager = LoginManager()
-
 
 def login(email, password) -> Dict or None:
     try:
         user = get_user_by_email(email)
-        print(user)
+
         if user:
             if not user.verify_password(password) or not user.active:
                 return
 
-        access_token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=600))
-        login_user(user)
-        return {'access_token': access_token}
+            access_token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=600))
+            login_user(user)
+            return {'access_token': access_token}
     except (AttributeError, KeyError, TypeError):
         return
 

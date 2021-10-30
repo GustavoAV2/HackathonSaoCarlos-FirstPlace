@@ -26,8 +26,8 @@ def login_view():
     return render_template('login.html', status=False)
 
 
-@app_views.route('/register', methods=['POST'])
-def login_view():
+@app_views.route('/register', methods=['POST', 'GET'])
+def register_view():
     if request.method == 'GET':
         return render_template('register.html', status=True)
 

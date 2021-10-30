@@ -12,7 +12,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(84), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=True)
     active = db.Column(db.Boolean(), default=True)
-    admin = db.Column(db.Boolean(), default=True)
 
     def verify_password(self, pwd):
         return check_password_hash(self.password, pwd)

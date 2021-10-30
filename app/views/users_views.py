@@ -11,12 +11,6 @@ from app.models.users import User
 app_users = Blueprint('users', __name__)
 
 
-@app_users.route('/users/login', methods=['POST'])
-def login_user() -> Tuple[Any, int]:
-    user_login = request.get_json()
-    return jsonify(login(user_login)), 201
-
-
 @app_users.route('/users', methods=['POST'])
 def post() -> Tuple[Any, int]:
     payload = request.get_json()
