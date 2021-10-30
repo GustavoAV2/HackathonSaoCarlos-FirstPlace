@@ -24,8 +24,8 @@ def login_view():
     return render_template('login_of.html', status=False)
 
 
-@app_views.route('/register', methods=['POST', 'GET'])
-def register_view():
+@app_views.route('/user/register', methods=['POST', 'GET'])
+def user_register_view():
     if request.method == 'GET':
         return render_template('register_of.html', status=True)
 
@@ -35,4 +35,13 @@ def register_view():
         if user.active:
             return redirect('/login')
     return render_template('register_of.html', status=False)
+
+
+@app_views.route('/register', methods=['POST', 'GET'])
+def register_view():
+    if request.method == 'GET':
+        return render_template('register.html', status=True)
+
+    content = request.values
+    return render_template('register.html', status=True)
 
