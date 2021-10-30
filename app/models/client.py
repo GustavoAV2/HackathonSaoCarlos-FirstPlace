@@ -1,10 +1,12 @@
+from uuid import uuid4
 from database import db
-from app.models.base import Base
 
 
-class Client(Base):
+class Client:
     __tablename__ = 'clients'
 
+    id = db.Column(db.String(36), default=lambda: str(uuid4()), primary_key=True)
+    active = db.Column(db.Boolean(), default=True)
     name = db.Column(db.String(150), nullable=False, unique=True)
     email = db.Column(db.String(84), nullable=False, unique=True)
     address = db.Column(db.String(150), nullable=False, unique=True)
