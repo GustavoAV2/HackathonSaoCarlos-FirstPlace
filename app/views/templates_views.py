@@ -51,14 +51,16 @@ def register_view():
         return render_template('register_client.html', status=True)
 
     if request.method == 'POST':
-        file1_received = request.files['file1']
+        rg = request.files['rg']
+        comprovante_residencia = request.files['comprovante_residencia']
+        certidao_nascimento = request.files['certidao_nascimento']
+        certidao_casamento = request.files['certidao_casamento']
+        imposto_de_renda = request.files['imposto_de_renda']
 
-        file2_received = request.files['file2']
-
-        file3_received = request.files['file3']
-
-        uuid_and_files = download_file_save(file1_received, file2_received, file3_received)
+        uuid_and_files: tuple = download_file_save(rg, comprovante_residencia,
+                                                   certidao_nascimento, certidao_casamento, imposto_de_renda)
         content = request.values
-        create_client(content, uuid_and_files[0], uuid_and_files[1], uuid_and_files[2], uuid_and_files[3])
+        create_client(content, uuid_and_files[0], uuid_and_files[1], uuid_and_files[2], uuid_and_files[3],
+                      uuid_and_files[4], uuid_and_files[5])
         # consult_score(content)
-    return render_template('register_client.html.html', status=True)
+    return render_template('register_client.html', status=True)
