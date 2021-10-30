@@ -8,7 +8,7 @@ def download_file(file):
     return ""
 
 
-def create_client(data: Dict) -> Client or None:
+def create_client(data: Dict, id_user, file1, file2, file3) -> Client or None:
     path_doc1 = download_file(data)
     path_doc2 = download_file(data)
     path_doc3 = download_file(data)
@@ -19,6 +19,7 @@ def create_client(data: Dict) -> Client or None:
         pass
     try:
         return save(Client(
+            id=id_user,
             name=data.get('name'),
             email=data.get('email'),
             address=data.get('address'),
@@ -26,9 +27,9 @@ def create_client(data: Dict) -> Client or None:
             cpf=data.get('cpf_or_cnpj'),
             legal_person=data.get('legal_person'),
 
-            document=path_doc1,
-            document2=path_doc2,
-            document3=path_doc3
+            document=file1,
+            document2=file2,
+            document3=file3
         ))
     except (AttributeError, KeyError, TypeError):
         return

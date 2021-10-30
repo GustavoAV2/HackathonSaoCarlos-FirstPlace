@@ -14,7 +14,7 @@
 
 <body id="register">
     <div class="container">
-        <form action="/register" name="login" method="post">
+        <form action="/register" enctype="multipart/form-data" name="login" method="post">
 
             <div class="row tm-register-row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-l">
@@ -74,6 +74,11 @@
                         <div class="input-field">
                             <p class="simple-lbl">Foto RG:</p>
                             <input placeholder="Foto do RG" id="file2" name="file2" type="file">
+                        </div>
+
+                        <div class="input-field">
+                            <p class="simple-lbl">Documento adicional:</p>
+                            <input placeholder="Documento adicional" id="file3" name="file3" type="file">
                         </div>
                     </header>
                 </div>
