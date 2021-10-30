@@ -11,7 +11,9 @@ class User:
     active = db.Column(db.Boolean(), default=True)
     email = db.Column(db.String(84), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=True)
-    request = relationship("Groups", backref=backref("groups", uselist=False))
+
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    group = relationship("Groups", backref=backref("groups", uselist=False))
 
     def verify_password(self, pwd):
         return check_password_hash(self.password, pwd)
