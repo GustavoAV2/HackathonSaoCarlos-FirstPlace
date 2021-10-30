@@ -23,7 +23,11 @@ def login(email, password) -> Dict or None:
 
 
 def create_user(data: Dict) -> User or None:
-    validate_address()
+    if validate_address(data.get('cep')) is None:
+        data['cep'] = ""
+        data['address'] = ""
+    else:
+        pass
     try:
         return save(User(
             email=data.get('email'),
