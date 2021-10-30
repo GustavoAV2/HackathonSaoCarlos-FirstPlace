@@ -43,7 +43,6 @@ def user_register_view():
 
 @app_views.route('/register', methods=['POST', 'GET'])
 def register_view():
-    id_user = str(uuid4())
     if request.method == 'GET':
         return render_template('register.html', status=True)
 
@@ -54,9 +53,9 @@ def register_view():
 
         file3_received = request.files['file3']
 
-        files_saved = download_file_save(id_user, file1_received, file2_received, file3_received)
+        uuid_and_files = download_file_save(file1_received, file2_received, file3_received)
         content = request.values
-        create_client(content, id_user, files_saved[0], files_saved[1], files_saved[2])
+        create_client(content, uuid_and_files[0], uuid_and_files[1], uuid_and_files[2], uuid_and_files[3])
         # consult_score(content)
     return render_template('register.html', status=True)
 
