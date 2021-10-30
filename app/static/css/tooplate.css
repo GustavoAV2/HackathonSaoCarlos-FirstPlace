@@ -130,10 +130,10 @@ ul.tm-home-list:not(.browser-default) {
   background-image: url(../img/triangle_register.png);
   background-size: cover;
   background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position: 50% 30%;
   color: black;
 }
-
 #application {
   background-image: url(static/img/input-bg-03.jpg);
   background-size: cover;
