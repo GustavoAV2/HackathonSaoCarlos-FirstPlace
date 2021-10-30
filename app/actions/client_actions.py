@@ -47,12 +47,17 @@ def create_client(data: Dict, id_user: str, file1, file2, file3) -> Client or No
         return "Endereço inválido"
     else:
         pass
+    if not validate_address(data.get('cep', '')):
+        return
+
     try:
         cli = Client()
 
         return save(Client(
             id=id_user,
             name=data.get('name'),
+            first_name=data.get('first_name'),
+            last_name=data.get('last_name'),
             email=data.get('email'),
             address=data.get('address'),
             cep=data.get('cep'),
@@ -65,7 +70,3 @@ def create_client(data: Dict, id_user: str, file1, file2, file3) -> Client or No
         ))
     except (AttributeError, KeyError, TypeError):
         return
-
-
-def get_cep(cep: str):
-    pass
