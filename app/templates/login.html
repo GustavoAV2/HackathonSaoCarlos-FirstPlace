@@ -20,10 +20,10 @@
 
                 <form action="/login" name="login" method="post" class="tm-bg-black p-5 h-100">
                     <div class="input-field">
-                        <input placeholder="Insira seu Email" id="username" name="email" type="email" class="validate">
+                        <input placeholder="Insira seu Email" id="username" name="email" type="email" class="validate" required>
                     </div>
                     <div class="input-field mb-5">
-                        <input placeholder="Insira sua Senha" id="password" name="password" type="password" class="validate">
+                        <input placeholder="Insira sua Senha" id="password" name="password" type="password" class="validate" required>
                     </div>
 
                     {% if not status %}

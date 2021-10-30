@@ -30,14 +30,14 @@
                     </div>
                 {% endif %}
                 <div class="input-field">
-                    <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
+                    <input placeholder="E-mail" id="email" name="email" type="email" class="validate" required>
                 </div>
 
                 <div class="input-field">
-                    <input placeholder="Senha" id="password" name="password" type="password" class="validate">
+                    <input placeholder="Senha" id="password" name="password" type="password" class="validate" required>
                 </div>
 
-                <select name="group">
+                <select name="group" required>
                     {% for group in groups %}
                        <option value="{{ group.name }}">{{ group.name }}</option>
                     {% endfor %}
