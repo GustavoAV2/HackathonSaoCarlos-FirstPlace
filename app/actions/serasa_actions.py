@@ -11,7 +11,7 @@ def get_info_by_cpf(cpf: str):
     """
     if validate_cpf(cpf):
         package = 9
-        status = requests.get(f'https://api.cpfcnpj.com.br/5ae973d7a997af13f0aaf2bf60e65803/{package}/{cpf_or_cnpj}')
+        status = requests.get(f'https://api.cpfcnpj.com.br/5ae973d7a997af13f0aaf2bf60e65803/{package}/{cpf}')
 
         content = json.loads(status.text)
         return content
@@ -25,7 +25,7 @@ def get_info_by_cnpj(cnpj: str):
     """
     if validate_cnpj(cnpj):
         package = 6
-        status = requests.get(f'https://api.cpfcnpj.com.br/5ae973d7a997af13f0aaf2bf60e65803/{package}/{cpf_or_cnpj}')
+        status = requests.get(f'https://api.cpfcnpj.com.br/5ae973d7a997af13f0aaf2bf60e65803/{package}/{cnpj}')
 
         content = json.loads(status.text)
         return content
