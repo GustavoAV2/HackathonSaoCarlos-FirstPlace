@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash
 from app.models.base import Base
 
 
-class User(Base, db.Model):
+class User(Base):
     __tablename__ = 'users'
 
     email = db.Column(db.String(84), nullable=False, unique=True)

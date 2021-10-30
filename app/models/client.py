@@ -2,7 +2,7 @@ from database import db
 from app.models.base import Base
 
 
-class Client(Base, db.Model):
+class Client(Base):
     __tablename__ = 'clients'
 
     name = db.Column(db.String(150), nullable=False, unique=True)

@@ -1,6 +1,6 @@
 from app.models.users import User
+from app.actions.client_actions import create_client
 from flask import Blueprint, render_template, request, redirect
-from app.actions.users_actions import get_user_by_id, get_users, update_user, create_user, login, deleted_user
 
 
 app_views = Blueprint('views', __name__)
@@ -43,5 +43,7 @@ def register_view():
         return render_template('register.html', status=True)
 
     content = request.values
+    create_client(content)
+    # consult_score(content)
     return render_template('register.html', status=True)
 
