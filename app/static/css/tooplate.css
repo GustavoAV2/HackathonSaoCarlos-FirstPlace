@@ -17,7 +17,10 @@ body {
   overflow-x: hidden;
   background-color: #000;
 }
-
+.simple-lbl{
+    opacity: 0.8;
+    color: white;
+}
 .tm-site-title {
   font-size: 4rem;
   text-align: center;

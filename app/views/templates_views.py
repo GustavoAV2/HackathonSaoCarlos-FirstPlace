@@ -1,6 +1,7 @@
 from app.models.users import User
+from app.actions.client_actions import create_client
+from app.actions.users_actions import login, create_user
 from flask import Blueprint, render_template, request, redirect
-from app.actions.users_actions import get_user_by_id, get_users, update_user, create_user, login, deleted_user
 
 
 app_views = Blueprint('views', __name__)
@@ -24,8 +25,8 @@ def login_view():
     return render_template('login_of.html', status=False)
 
 
-@app_views.route('/register', methods=['POST', 'GET'])
-def register_view():
+@app_views.route('/user/register', methods=['POST', 'GET'])
+def user_register_view():
     if request.method == 'GET':
         return render_template('register_of.html', status=True)
 
@@ -35,4 +36,15 @@ def register_view():
         if user.active:
             return redirect('/login')
     return render_template('register_of.html', status=False)
+
+
+@app_views.route('/register', methods=['POST', 'GET'])
+def register_view():
+    if request.method == 'GET':
+        return render_template('register.html', status=True)
+
+    content = request.values
+    create_client(content)
+    # consult_score(content)
+    return render_template('register.html', status=True)
 
