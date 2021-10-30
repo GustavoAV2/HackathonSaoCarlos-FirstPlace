@@ -13,9 +13,10 @@ def create_client(data: Dict) -> Client or None:
     path_doc2 = download_file(data)
     path_doc3 = download_file(data)
 
-    if not validate_address(data.get('cep', '')):
-        return
-
+    if validate_address(data.get('cep')) is None:
+        return "Endereço inválido"
+    else:
+        pass
     try:
         return save(Client(
             name=data.get('name'),
@@ -31,3 +32,7 @@ def create_client(data: Dict) -> Client or None:
         ))
     except (AttributeError, KeyError, TypeError):
         return
+
+
+def get_cep(cep: str):
+    pass

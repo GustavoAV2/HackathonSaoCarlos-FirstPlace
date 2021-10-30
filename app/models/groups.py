@@ -12,6 +12,6 @@ class Group(db.Model):
     def serialize(self):
         return {
                 'id': self.id,
-                'name': self.name,
+                'name': self.email,
                 'active': self.active
                 }

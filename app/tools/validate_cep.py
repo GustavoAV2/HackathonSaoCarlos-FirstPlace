@@ -1,5 +1,6 @@
-from requests import request
 from json import JSONDecodeError
+
+from requests import request
 
 
 def validate_address(cep: str) -> dict or None:
@@ -8,13 +9,12 @@ def validate_address(cep: str) -> dict or None:
         response_json = response.json()
     except JSONDecodeError:
         return None
-    if response_json:
-        response_json = {
-                "logradouro": response_json.get('logradouro'),
-                "complemento": response_json.get('complemento'),
-                "bairro": response_json.get('bairro'),
-                "localidade": response_json.get('localidade'),
-                "uf": response_json.get('uf'),
-                "cep": response_json.get('cep')
-            }
-        return response_json
+    response_json = {
+            "logradouro": response_json.get('logradouro'),
+            "complemento": response_json.get('complemento'),
+            "bairro": response_json.get('bairro'),
+            "localidade": response_json.get('localidade'),
+            "uf": response_json.get('uf'),
+            "cep": response_json.get('cep')
+        }
+    return response_json
