@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Hackathon</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/materialize.min.css">
+    <link rel="stylesheet" href="static/css/tooplate.css">
+</head>
+
+<body id="login">
+    <div class="container">
+        <div class="row tm-register-row tm-mb-35">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-login-l">
+
+                <form action="/login" name="login" method="post" class="tm-bg-black p-5 h-100">
+                    <div class="input-field">
+                        <input placeholder="Insira seu Email" id="username" name="email" type="email" class="validate">
+                    </div>
+                    <div class="input-field mb-5">
+                        <input placeholder="Insira sua Senha" id="password" name="password" type="password" class="validate">
+                    </div>
+
+                    {% if not status %}
+                    <div style="color:red;">
+                        <div role="alert">
+                            Credenciais incorretas!
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="tm-flex-lr">
+                        <a href="#" class="white-text small">Esqueceu sua senha?</a>
+                        <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text rounded-0">Login</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-login-r">
+                <header class="font-weight-light tm-bg-black p-5 h-100">
+                    <h3 class="mt-0 text-white font-weight-light">Entre</h3>
+                    <p>Insira suas credenciais para entrar na sua conta.</p>
+                    <p class="mb-0">Se ainda não está cadastrado cria sua conta clicando no botão abaixo.</p>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 ml-auto mr-0 text-center">
+                <a href="register.html" class="waves-effect btn-large btn-large-white px-4 black-text rounded-0">Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="static/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+    </script>
+</body>
+
+</html>
