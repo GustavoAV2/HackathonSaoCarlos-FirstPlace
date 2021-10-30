@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship, backref
 from werkzeug.security import check_password_hash
 
 
-class User:
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.String(36), default=lambda: str(uuid4()), primary_key=True)
