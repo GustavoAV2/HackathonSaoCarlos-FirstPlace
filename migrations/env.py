@@ -22,7 +22,8 @@ logger = logging.getLogger('alembic.env')
 # from myapp import mymodel
 from app.models.users import User
 from app.models.client import Client
-from app.models.groups import Groups
+from app.models.groups import Group
+from app.models.request import Request
 
 # target_metadata = mymodel.Base.metadata
 from flask import current_app
