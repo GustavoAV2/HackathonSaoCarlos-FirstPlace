@@ -1,6 +1,7 @@
 from app.models.client import Client
 from database.repository import save, delete, commit
 from typing import Dict, List
+from app.tools.validate_cep import validate_address
 
 
 def download_file(file):
@@ -12,6 +13,10 @@ def create_client(data: Dict) -> Client or None:
     path_doc2 = download_file(data)
     path_doc3 = download_file(data)
 
+    if validate_address(data.get('cep')) is None:
+        return "Endereço inválido"
+    else:
+        pass
     try:
         return save(Client(
             name=data.get('name'),
