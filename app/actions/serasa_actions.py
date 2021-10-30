@@ -4,7 +4,7 @@ from random import randint
 from app.tools.validate_cpf_and_cnpj import validate_cpf, validate_cnpj
 
 
-def get_info_by_cpf(cpf: str):
+def get_receita_by_cpf(cpf: str):
     """
     API Document: https://www.cpfcnpj.com.br/dev/
     :param cpf:
@@ -19,7 +19,7 @@ def get_info_by_cpf(cpf: str):
         return content
 
 
-def get_info_by_cnpj(cnpj: str):
+def get_receita_by_cnpj(cnpj: str):
     """
     API Document: https://www.cpfcnpj.com.br/dev/
     :param cnpj:
@@ -42,3 +42,4 @@ def get_score(user):
     """
     user['score'] = randint(1, 1000)
     return user
+

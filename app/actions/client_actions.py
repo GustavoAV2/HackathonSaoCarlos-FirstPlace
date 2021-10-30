@@ -18,7 +18,8 @@ def create_client(data: Dict) -> Client or None:
 
     try:
         return save(Client(
-            name=data.get('name'),
+            first_name=data.get('first_name'),
+            last_name=data.get('last_name'),
             email=data.get('email'),
             address=data.get('address'),
             cep=data.get('cep'),

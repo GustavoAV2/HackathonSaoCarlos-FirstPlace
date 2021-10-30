@@ -14,6 +14,8 @@
 
 <body id="register">
     <div class="container">
+        <h3 class="mt-0 text-white">Preencha para fazer uma solicitação</h3><hr>
+
         <form action="/register" name="login" method="post">
 
             <div class="row tm-register-row">
@@ -26,59 +28,86 @@
                             </div>
                         </div>
                     {% endif %}
-                        <div class="input-field">
-                            <input placeholder="Primeiro Nome" id="first_name" name="name" type="text" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="text" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="Telefone (Celular)" id="mobile" name="mobile" type="tel" class="validate">
-                        </div>
+                    <div class="input-field">
+                        <input placeholder="Primeiro Nome" id="first_name" name="name" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="Telefone (Celular)" id="mobile" name="mobile" type="tel" class="validate">
+                    </div>
 
-                        <div class="row">
-                           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 tm-pr-xs-0">
-                                <select name="type_person">
-                                    <option value="physical person">Pessoa Física</option>
-                                    <option value="legal_person">Pessoa Jurídica</option>
-                                </select>
-                            </div>
-                           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pr-0 tm-pl-xs-0">
-                               <div class="input-field">
-                                   <input placeholder="CEP" id="zipcode" name="zipcode" type="text" class="validate">
-                               </div>
+                    <div class="row">
+                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 tm-pr-xs-0">
+                            <select name="type_person">
+                                <option value="physical person">Pessoa Física</option>
+                                <option value="legal_person">Pessoa Jurídica</option>
+                            </select>
+                        </div>
+                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pr-0 tm-pl-xs-0">
+                           <div class="input-field">
+                               <input placeholder="CEP" id="zipcode" name="zipcode" type="text" class="validate">
                            </div>
-                        </div>
+                       </div>
+                    </div>
 
-                        <div class="input-field">
-                            <input placeholder="Endereço" id="address" name="address" type="text" class="validate">
-                        </div>
-                        <div class="text-right mt-4">
-                            <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text">Enviar</button>
-                        </div>
+                    <div class="input-field">
+                        <input placeholder="Endereço" id="address" name="address" type="text" class="validate">
+                    </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-r">
-                    <header class="mb-5">
-                        <h3 class="mt-0 text-white">Faça seu cadastro!</h3>
-                        <hr>
-                        <div class="input-field">
-                            <p class="simple-lbl">Comprovante de residência:</p>
-                            <input placeholder="Comprovante de residência" id="file1" name="file1" type="file">
+                    <div class="input-field">
+                        <input placeholder="Renda anual" id="income" name="income" type="number" class="validate">
+                    </div>
+                    <div class="row">
+                        <div class="col"> <p class="simple-lbl">Possui Conjugê:</p> </div>
+                        <div class="col">
+                            <label>
+                                <input class="with-gap" name="conj" value="True" type="radio">
+                                <span>Não</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" name="conj" value="False" type="radio">
+                                <span>Sim</span>
+                            </label>
                         </div>
-                        <div class="input-field">
-                            <p class="simple-lbl">Foto RG:</p>
-                            <input placeholder="Foto do RG" id="file2" name="file2" type="file">
-                        </div>
-                    </header>
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">RG (Frente e verso):</p>
+                        <input placeholder="Foto do RG" id="file1" name="rg" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Comprovante de residência:</p>
+                        <input placeholder="Comprovante de residência" id="file2" name="comprovante_residencia" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Certidão de nascimento:</p>
+                        <input placeholder="Certidao de nascimento" id="file3" name="certidao_nascimento" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Certidão de casamento:</p>
+                        <input placeholder="Certidao de casamento" id="file4" name="certidao_casamento" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Imposto de renda do último ano:</p>
+                        <input placeholder="Certidao de casamento" id="file5" name="certidao_casamento" type="file">
+                    </div>
                 </div>
             </div>
 
+
+
+
+            <div class="text-right mt-4">
+                <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text">Enviar</button>
+            </div>
         </form>
     </div>
 
