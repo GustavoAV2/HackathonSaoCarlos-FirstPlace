@@ -1,5 +1,6 @@
 from uuid import uuid4
 from database import db
+from sqlalchemy.orm import relationship, backref
 from werkzeug.security import check_password_hash
 
 
@@ -10,6 +11,7 @@ class User:
     active = db.Column(db.Boolean(), default=True)
     email = db.Column(db.String(84), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=True)
+    request = relationship("Groups", backref=backref("groups", uselist=False))
 
     def verify_password(self, pwd):
         return check_password_hash(self.password, pwd)

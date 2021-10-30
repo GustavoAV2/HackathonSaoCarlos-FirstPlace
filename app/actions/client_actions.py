@@ -27,3 +27,7 @@ def create_client(data: Dict) -> Client or None:
         ))
     except (AttributeError, KeyError, TypeError):
         return
+
+
+def get_cep(cep: str):
+    pass
