@@ -10,7 +10,7 @@ class Spouse(db.Model):
     active = db.Column(db.Boolean(), default=True)
     first_name = db.Column(db.String(150), nullable=False, unique=False)
     last_name = db.Column(db.String(150), nullable=False, unique=False)
-    email = db.Column(db.String(84), nullable=False, unique=True)
+    email = db.Column(db.String(84), nullable=False, unique=False)
     cpf_or_cnpj = db.Column(db.String(16), nullable=False, unique=True)
     legal_person = db.Column(db.Boolean(), default=False)
     rg = db.Column(db.String(20), nullable=False, unique=False)
