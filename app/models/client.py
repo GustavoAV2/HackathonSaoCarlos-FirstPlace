@@ -10,7 +10,7 @@ class Client(db.Model):
     active = db.Column(db.Boolean(), default=True)
     first_name = db.Column(db.String(150), nullable=False, unique=False)
     last_name = db.Column(db.String(150), nullable=False, unique=False)
-    email = db.Column(db.String(84), nullable=False, unique=True)
+    email = db.Column(db.String(84), nullable=False, unique=False)
     phone = db.Column(db.String(20), nullable=True, unique=True)
     address = db.Column(db.String(150), nullable=True, unique=False)
     cep = db.Column(db.String(10), nullable=True, unique=False)
@@ -22,6 +22,7 @@ class Client(db.Model):
 
     spouse_id = db.Column(db.Integer, db.ForeignKey('spouse.id'))
     spouse = relationship("Spouse", backref=backref("spouse", uselist=False))
+    request = relationship("Request", backref=backref("requests", uselist=False))
 
     birth_file = db.Column(db.String(200), nullable=False, unique=False)
     wedding_file = db.Column(db.String(200), nullable=True, unique=False)
