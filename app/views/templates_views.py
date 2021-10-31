@@ -1,13 +1,10 @@
-from werkzeug.utils import secure_filename
 from uuid import uuid4
 from app.models.users import User
 from app.actions.groups_actions import get_groups
-from app.actions.client_actions import create_client, download_file_save
 from app.actions.users_actions import login, create_user
 from flask import Blueprint, render_template, request, redirect
 from app.actions.client_actions import create_client, get_client_by_id
 
-import os
 import time
 
 app_views = Blueprint('views', __name__)

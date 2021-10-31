@@ -23,19 +23,19 @@
                         </div>
                     {% endif %}
                     <div class="input-field">
-                        <input placeholder="Primeiro Nome" id="first_name" name="first_name" type="text" class="validate">
+                        <input placeholder="Primeiro Nome" id="first_name" name="first_name" type="text" class="validate" required maxlength="150">
                     </div>
                     <div class="input-field">
-                        <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate">
+                        <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate" required maxlength="150">
                     </div>
                     <div class="input-field">
-                        <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="text" class="validate">
+                        <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="tel" class="validate" required minlength="11" maxlength="14">
                     </div>
                     <div class="input-field">
-                        <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
+                        <input placeholder="E-mail" id="email" name="email" type="email" class="validate" required maxlength="84">
                     </div>
                     <div class="input-field">
-                        <input placeholder="Telefone (Celular)" id="mobile" name="phone" type="tel" class="validate">
+                        <input placeholder="Telefone (Celular)" id="mobile" name="phone" type="tel" class="validate" required maxlength="20">
                     </div>
 
                     <div class="row">
@@ -47,29 +47,29 @@
                         </div>
                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pr-0 tm-pl-xs-0">
                            <div class="input-field">
-                               <input placeholder="CEP" id="zipcode" name="zipcode" type="text" class="validate">
+                               <input placeholder="CEP" id="zipcode" name="zipcode" type="tel" class="validate" required maxlength="10">
                            </div>
                        </div>
                     </div>
 
                     <div class="input-field">
-                        <input placeholder="Endereço" id="address" name="address" type="text" class="validate">
+                        <input placeholder="Endereço" id="address" name="address" type="text" class="validate" required maxlength="150">
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-r">
                     <div class="input-field">
-                        <input placeholder="Numero de Registro (RG)" id="rg" name="rg" type="tel" class="validate">
+                        <input placeholder="Numero de Registro (RG)" id="rg" name="rg" type="tel" class="validate" required maxlength="20">
                     </div>
 
                     <div class="input-field">
-                        <input placeholder="Renda anual" id="income" name="income" type="number" class="validate">
+                        <input placeholder="Renda anual" id="income" name="income" type="number" class="validate" required>
                     </div>
 
                     <div class="row">
                         <div class="col"> <p class="simple-lbl">Possui Conjugê:</p> </div>
                         <div class="col">
                             <label>
-                                <input checked class="with-gap" name="spouse" value="False" type="radio">
+                                <input checked class="with-gap" name="spouse" value="False" type="radio" required>
                                 <span>Não</span>
                             </label>
                             <label>
