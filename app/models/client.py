@@ -18,6 +18,8 @@ class Client(db.Model):
     rg = db.Column(db.String(20), nullable=False, unique=False)
     legal_person = db.Column(db.Boolean(), default=True)
 
+    financial_registration_approval = db.Column(db.Boolean(), default=False)
+
     spouse_id = db.Column(db.Integer, db.ForeignKey('spouse.id'))
     spouse = relationship("Spouse", backref=backref("spouse", uselist=False))
 

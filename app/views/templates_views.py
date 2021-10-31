@@ -2,8 +2,8 @@ from app.models.users import User
 from app.actions.groups_actions import get_groups
 from app.actions.spouse_actions import create_spouse
 from app.actions.users_actions import login, create_user
-from flask import Blueprint, render_template, request, redirect
-from app.actions.client_actions import create_client, get_client_by_id, update_user
+from flask import Blueprint, render_template, request, redirect, jsonify
+from app.actions.client_actions import create_client, get_client_by_id, update_user, to_approve, to_disapprove
 from app.actions.send_email_actions import send_analysis_message, send_register_spouse_url
 
 
@@ -88,3 +88,15 @@ def spouse_register_view(_id):
         return render_template('register_spouse.html', status=False,
                                message='Erro na solicitação, verifique os campos!')
     return redirect('/register')
+
+
+@app_views.route('/1qe1wr3etmnb3r3ety1ym/nb3vcXxzs2b3r3etyh48yt94j/<id>', methods=['POST'])
+def link_to_approve(id: str):
+    to_approve(id)
+    return jsonify({}), 200
+
+
+@app_views.route('/3ety1ymnbmnb3r3ety1ym/nb3vcXxzs2dwrmnb3vcXeyt94j/<id>', methods=['POST'])
+def link_to_disapprove(id: str):
+    to_disapprove(id)
+    return jsonify({}), 200

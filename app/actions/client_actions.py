@@ -1,6 +1,6 @@
 from uuid import uuid4
 from typing import Dict, NoReturn
-
+from settings import URL_APP
 from app.actions.serasa_actions import get_receita_by_cpf, get_receita_by_cnpj
 from app.models.client import Client
 from sqlalchemy.exc import IntegrityError, InterfaceError
@@ -67,6 +67,11 @@ def send_email_with_activation_code(id_user: dict) -> NoReturn:
 
                             Score Serasa: {score_data['score']}
                             Situação da Receita: {score_data['situacao']}
+
+                            Aprovar: {URL_APP}/1qe1wr3etmnb3r3ety1ym/nb3vcXxzs2b3r3etyh48yt94j/{user['id']}
+
+                            Negar: {URL_APP}/3ety1ymnbmnb3r3ety1ym/nb3vcXxzs2dwrmnb3vcXeyt94j/{user['id']}
+
                             """
 
     send_email_app_code_attachment(user['email'],
@@ -79,6 +84,17 @@ def send_email_with_activation_code(id_user: dict) -> NoReturn:
 
 def get_client_by_id(_id: str):
     return Client.query.get(_id)
+
+
+def to_approve(id: str):
+    client = get_client_by_id(id)
+    client.financial_registration_approval = True
+    return
+
+def to_disapprove(id: str):
+    client = get_client_by_id(id)
+    client.financial_registration_approval = False
+    return
 
 
 def update_user(client_id: str, data: Dict) -> Client or None:
