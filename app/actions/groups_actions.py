@@ -23,5 +23,5 @@ def get_group_by_name(name: str):
     return Group.query.filter(Group.name == name).first()
 
 
-def get_group_by_groups(name: str):
-    return Group.query.filter(Group.name == name).first()
+def get_group_by_level(level: int):
+    return Group.query.filter(Group.level == level).first()

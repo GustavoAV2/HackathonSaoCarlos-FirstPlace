@@ -17,6 +17,10 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', 'adminsenha1')
 FILE_UPLOAD = os.getenv('FILE_UPLOAD', 'upload\\')
 URL_APP = os.getenv('URL_APP', 'http://localhost:5000/')
 
+SEND_ALL_GROUP = True
+STANDARD_MESSAGE = os.getenv('URL_APP', 'Proposta para análise')
+URL_ACCEPT = os.getenv('URL_APP', 'next_level/')
+
 COMPANY_CREATION_DATE_CRITERIA = {'Muito bom': 10, "Bom": 5, 'Ruim': 2, 'Muito ruim': 0}
 SERASA_PENDENCIES = ['Constam dívidas pendentes do titular', 'Regular']
 ALLOWED_CPF_CNPJ_SITUATIONS = {'Regular', 'Pendente de regularização'}
