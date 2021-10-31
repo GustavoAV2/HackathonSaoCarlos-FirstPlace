@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body id="register">
+    <div class="container">
+        <h3 class="mt-0 text-white">Cadastre seu cônjuge</h3><hr>
+
+        <form action="/spouse/{{ id }}/register" name="login" method="post">
+
+            <div class="row tm-register-row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-l">
+                    {% if not status %}
+                        <div style="color:green;">
+                            <div role="alert">
+                                Sua solicitação foi enviada com sucesso!
+                                Após a analise você terá a resposta por e-mail.
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="input-field">
+                        <input placeholder="Primeiro Nome" id="first_name" name="name" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="Telefone (Celular)" id="mobile" name="mobile" type="tel" class="validate">
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-r">
+                    <div class="input-field">
+                        <input placeholder="Numero de Registro (RG)" id="rg" name="rg" type="tel" class="validate">
+                    </div>
+
+                    <div class="input-field">
+                        <input placeholder="Renda anual" id="income" name="income" type="number" class="validate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right mt-4">
+                <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text">Enviar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+    </script>
+</body>
+{% endblock %}

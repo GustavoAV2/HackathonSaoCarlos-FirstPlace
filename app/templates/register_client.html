@@ -1,94 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register Hackathon</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/materialize.min.css">
-    <link rel="stylesheet" href="static/css/tooplate.css">
-</head>
-
+{% block content %}
 <body id="register">
     <div class="container">
+        <h3 class="mt-0 text-white">Preencha para fazer uma solicitação</h3><hr>
+
         <form action="/register" name="login" method="post">
 
             <div class="row tm-register-row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-l">
-                    {% if not status %}
+                    {% if status %}
                         <div style="color:green;">
                             <div role="alert">
-                                Sua solicitação foi enviada com sucesso!
-                                Após a analise você terá a resposta por e-mail.
+                                {{ message }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div style="color:red;">
+                            <div role="alert">
+                                {{ message }}
                             </div>
                         </div>
                     {% endif %}
-                        <div class="input-field">
-                            <input placeholder="Primeiro Nome" id="first_name" name="name" type="text" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="text" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
-                        </div>
-                        <div class="input-field">
-                            <input placeholder="Telefone (Celular)" id="mobile" name="mobile" type="tel" class="validate">
-                        </div>
+                    <div class="input-field">
+                        <input placeholder="Primeiro Nome" id="first_name" name="first_name" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="text" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="Telefone (Celular)" id="mobile" name="phone" type="tel" class="validate">
+                    </div>
 
-                        <div class="row">
-                           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 tm-pr-xs-0">
-                                <select name="type_person">
-                                    <option value="physical person">Pessoa Física</option>
-                                    <option value="legal_person">Pessoa Jurídica</option>
-                                </select>
-                            </div>
-                           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pr-0 tm-pl-xs-0">
-                               <div class="input-field">
-                                   <input placeholder="CEP" id="zipcode" name="zipcode" type="text" class="validate">
-                               </div>
+                    <div class="row">
+                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 tm-pr-xs-0">
+                            <select name="type_person">
+                                <option selected value="False">Pessoa Física</option>
+                                <option value="True">Pessoa Jurídica</option>
+                            </select>
+                        </div>
+                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pr-0 tm-pl-xs-0">
+                           <div class="input-field">
+                               <input placeholder="CEP" id="zipcode" name="zipcode" type="text" class="validate">
                            </div>
-                        </div>
+                       </div>
+                    </div>
 
-                        <div class="input-field">
-                            <input placeholder="Endereço" id="address" name="address" type="text" class="validate">
-                        </div>
-                        <div class="text-right mt-4">
-                            <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text">Enviar</button>
-                        </div>
+                    <div class="input-field">
+                        <input placeholder="Endereço" id="address" name="address" type="text" class="validate">
+                    </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-r">
-                    <header class="mb-5">
-                        <h3 class="mt-0 text-white">Faça seu cadastro!</h3>
-                        <hr>
-                        <div class="input-field">
-                            <p class="simple-lbl">Comprovante de residência:</p>
-                            <input placeholder="Comprovante de residência" id="file1" name="file1" type="file">
+                    <div class="input-field">
+                        <input placeholder="Numero de Registro (RG)" id="rg" name="rg" type="tel" class="validate">
+                    </div>
+
+                    <div class="input-field">
+                        <input placeholder="Renda anual" id="income" name="income" type="number" class="validate">
+                    </div>
+
+                    <div class="row">
+                        <div class="col"> <p class="simple-lbl">Possui Conjugê:</p> </div>
+                        <div class="col">
+                            <label>
+                                <input checked class="with-gap" name="spouse" value="False" type="radio">
+                                <span>Não</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" name="spouse" value="True" type="radio">
+                                <span>Sim</span>
+                            </label>
                         </div>
-                        <div class="input-field">
-                            <p class="simple-lbl">Foto RG:</p>
-                            <input placeholder="Foto do RG" id="file2" name="file2" type="file">
-                        </div>
-                    </header>
+                    </div>
+
+                    <div class="input-field">
+                        <p class="simple-lbl">Comprovante de residência:</p>
+                        <input placeholder="Comprovante de residência" id="file2" name="residence_file" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Certidão de nascimento:</p>
+                        <input placeholder="Certidao de nascimento" id="file3" name="birth_file" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Certidão de casamento:</p>
+                        <input placeholder="Certidao de casamento" id="file4" name="wedding_file" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Imposto de renda do último ano:</p>
+                        <input placeholder="Certidao de casamento" id="file5" name="income_tax_file" type="file">
+                    </div>
                 </div>
             </div>
 
+            <div class="text-right mt-4">
+                <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text">Enviar</button>
+            </div>
         </form>
     </div>
 
-    <script src="static/js/jquery-3.2.1.slim.min.js"></script>
-    <script src="static/js/materialize.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('select').formSelect();
-        });
-    </script>
 </body>
-
-</html>
+{% endblock %}
