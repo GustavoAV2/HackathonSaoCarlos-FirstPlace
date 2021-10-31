@@ -1,5 +1,6 @@
 from uuid import uuid4
 from database import db
+from sqlalchemy.orm import relationship, backref
 
 
 class Group(db.Model):
@@ -10,6 +11,8 @@ class Group(db.Model):
     email = db.Column(db.String(150), nullable=False, unique=True)
     level = db.Column(db.Integer, nullable=False, unique=True)
     active = db.Column(db.Boolean(), default=True)
+
+    users = relationship("User", backref=backref("users", uselist=True))
 
     def serialize(self):
         return {

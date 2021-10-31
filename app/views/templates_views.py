@@ -1,6 +1,7 @@
 from app.models.users import User
 from app.actions.groups_actions import get_groups
 from app.actions.spouse_actions import create_spouse
+from app.actions.request_actions import create_request
 from app.actions.users_actions import login, create_user
 from flask import Blueprint, render_template, request, redirect
 from app.actions.client_actions import create_client, get_client_by_id, update_user
@@ -76,14 +77,14 @@ def spouse_register_view(_id):
 
         content = request.values
         files = request.files
-        spouse = create_spouse(content, files)
         if files.get('wedding_file'):
+            spouse = create_spouse(content, files)
             if spouse:
                 update_user(_id, {'spouse_id': spouse.id, 'wedding_file': files.get('wedding_file')})
-
-                send_analysis_message(user.email)
-                return render_template('register_spouse.html', status=True, message='Sua solicitação '
-                                       'foi enviada com sucesso!\nApós a analise você terá a resposta por e-mail.')
+                if create_request(_id):
+                    send_analysis_message(user.email)
+                    return render_template('register_spouse.html', status=True, message='Sua solicitação '
+                                           'foi enviada com sucesso!\nApós a analise você terá a resposta por e-mail.')
 
         return render_template('register_spouse.html', status=False,
                                message='Erro na solicitação, verifique os campos!')
