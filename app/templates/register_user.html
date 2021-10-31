@@ -19,11 +19,11 @@
                     </div>
                 {% endif %}
                 <div class="input-field">
-                    <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
+                    <input placeholder="E-mail" id="email" name="email" type="email" class="validate" required maxlength="84">
                 </div>
 
                 <div class="input-field">
-                    <input placeholder="Senha" id="password" name="password" type="password" class="validate">
+                    <input placeholder="Senha" id="password" name="password" type="password" class="validate" required minlength="6" maxlength="10">
                 </div>
 
                 <select name="group">
