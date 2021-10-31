@@ -1,6 +1,6 @@
 from typing import List
 from app.tools.send_email import send_email_app_code
-from app.actions.client_actions import get_client_by_id, send_email_with_activation_code, creating_body_mail
+from app.actions.client_actions import get_client_by_id, send_email_with_activation_code
 from app.actions.groups_actions import get_group_by_level
 from settings import SEND_ALL_GROUP, STANDARD_MESSAGE, URL_APP, URL_ACCEPT
 from app.tools.levels_endpoints import links
