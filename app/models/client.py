@@ -18,13 +18,13 @@ class Client(db.Model):
     rg = db.Column(db.String(20), nullable=False, unique=False)
     legal_person = db.Column(db.Boolean(), default=True)
 
-    spouse_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
-    spouse = relationship("Client", backref=backref("clients", uselist=False))
+    spouse_id = db.Column(db.Integer, db.ForeignKey('spouse.id'))
+    spouse = relationship("Spouse", backref=backref("spouse", uselist=False))
 
-    birth_file = db.Column(db.String(200), nullable=True, unique=False)
+    birth_file = db.Column(db.String(200), nullable=False, unique=False)
     wedding_file = db.Column(db.String(200), nullable=True, unique=False)
-    residence_file = db.Column(db.String(200), nullable=True, unique=False)
-    income_tax_file = db.Column(db.String(200), nullable=True, unique=False)
+    residence_file = db.Column(db.String(200), nullable=False, unique=False)
+    income_tax_file = db.Column(db.String(200), nullable=False, unique=False)
 
     def serialize(self):
         return {

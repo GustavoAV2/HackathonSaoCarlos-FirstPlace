@@ -1,5 +1,6 @@
 from app.models.users import User
 from app.actions.groups_actions import get_groups
+from app.actions.spouse_actions import create_spouse
 from app.actions.users_actions import login, create_user
 from flask import Blueprint, render_template, request, redirect
 from app.actions.client_actions import create_client, get_client_by_id, update_user
@@ -47,18 +48,19 @@ def register_view():
         return render_template('register_client.html', status=True)
 
     content = request.values
-    user = create_client(content)
+    files = request.files
+    user = create_client(content, files)
     if user:
-        send_analysis_message(user.email)
-
         try:
-            if bool(content.get('spouse')):
+            if content.get('spouse'):
                 send_register_spouse_url(user.email, f'spouse/{user.id}/register')
-                return render_template('register_client.html', status=True, message='Sua solicitação foi enviada com '
-                                       'sucesso!\nVerifique seu email para cadastrar seu conjugê.')
+
+                return render_template('register_spouse.html', status=True, message='Cadastre seu conjugê para terminar'
+                                                                                    ' a solicitação!')
         except (ValueError, TypeError):
             ...
 
+        send_analysis_message(user.email)
         # consult_score(content)
         return render_template('register_client.html', status=True, message='Sua solicitação foi enviada com sucesso!\n'
                                'Após a analise você terá a resposta por e-mail.')
@@ -73,11 +75,15 @@ def spouse_register_view(_id):
             return render_template('register_spouse.html', id=_id, status=True)
 
         content = request.values
-        user: User = create_user(content)
-        client_user = update_user(_id, {'spouse_id': user.id})
-        if user and client_user:
-            return render_template('register_spouse.html', status=True, message='Sua solicitação '
-                                   'foi enviada com sucesso!Após a analise você terá a resposta por e-mail.')
+        files = request.files
+        spouse = create_spouse(content, files)
+        if files.get('wedding_file'):
+            if spouse:
+                update_user(_id, {'spouse_id': spouse.id, 'wedding_file': files.get('wedding_file')})
+
+                send_analysis_message(user.email)
+                return render_template('register_spouse.html', status=True, message='Sua solicitação '
+                                       'foi enviada com sucesso!\nApós a analise você terá a resposta por e-mail.')
 
         return render_template('register_spouse.html', status=False,
                                message='Erro na solicitação, verifique os campos!')

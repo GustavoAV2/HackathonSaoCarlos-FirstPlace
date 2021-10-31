@@ -5,7 +5,7 @@
     <div class="container">
         <h3 class="mt-0 text-white">Preencha para fazer uma solicitação</h3><hr>
 
-        <form action="/register" name="login" method="post">
+        <form action="/register" enctype="multipart/form-data" name="login" method="post">
 
             <div class="row tm-register-row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-l">
@@ -35,13 +35,16 @@
                         <input placeholder="E-mail" id="email" name="email" type="email" class="validate" required maxlength="84">
                     </div>
                     <div class="input-field">
+                        <input placeholder="Data do nascimento" id="date" name="birth_date" type="date" class="validate" required>
+                    </div>
+                    <div class="input-field">
                         <input placeholder="Telefone (Celular)" id="mobile" name="phone" type="tel" class="validate" required maxlength="20">
                     </div>
 
                     <div class="row">
                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 tm-pr-xs-0">
                             <select name="type_person">
-                                <option selected value="False">Pessoa Física</option>
+                                <option selected value="">Pessoa Física</option>
                                 <option value="True">Pessoa Jurídica</option>
                             </select>
                         </div>
@@ -69,7 +72,7 @@
                         <div class="col"> <p class="simple-lbl">Possui Conjugê:</p> </div>
                         <div class="col">
                             <label>
-                                <input checked class="with-gap" name="spouse" value="False" type="radio" required>
+                                <input checked class="with-gap" name="spouse" value="" type="radio" required>
                                 <span>Não</span>
                             </label>
                             <label>
@@ -83,17 +86,15 @@
                         <p class="simple-lbl">Comprovante de residência:</p>
                         <input placeholder="Comprovante de residência" id="file2" name="residence_file" type="file">
                     </div>
+
                     <div class="input-field">
                         <p class="simple-lbl">Certidão de nascimento:</p>
-                        <input placeholder="Certidao de nascimento" id="file3" name="birth_file" type="file">
+                        <input placeholder="Certidão de nascimento" id="file3" name="birth_file" type="file">
                     </div>
-                    <div class="input-field">
-                        <p class="simple-lbl">Certidão de casamento:</p>
-                        <input placeholder="Certidao de casamento" id="file4" name="wedding_file" type="file">
-                    </div>
+
                     <div class="input-field">
                         <p class="simple-lbl">Imposto de renda do último ano:</p>
-                        <input placeholder="Certidao de casamento" id="file5" name="income_tax_file" type="file">
+                        <input placeholder="Imposto de renda" id="file5" name="income_tax_file" type="file">
                     </div>
                 </div>
             </div>

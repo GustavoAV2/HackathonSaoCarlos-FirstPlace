@@ -17,3 +17,7 @@ def get_groups() -> List[Group]:
 
 def get_group_by_name(name: str):
     return Group.query.filter(Group.name == name).first()
+
+
+def get_group_by_groups(name: str):
+    return Group.query.filter(Group.name == name).first()
