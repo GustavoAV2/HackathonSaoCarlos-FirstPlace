@@ -13,17 +13,22 @@
                 {% if not status %}
                     <div style="color:green;">
                         <div role="alert">
-                            Sua solicitação foi enviada com sucesso!
-                            Após a analise você terá a resposta por e-mail.
+                            {{ message }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div style="color:red;">
+                        <div role="alert">
+                            {{ message }}
                         </div>
                     </div>
                 {% endif %}
                 <div class="input-field">
-                    <input placeholder="E-mail" id="email" name="email" type="email" class="validate">
+                    <input placeholder="E-mail" id="email" name="email" type="email" class="validate" required maxlength="84">
                 </div>
 
                 <div class="input-field">
-                    <input placeholder="Senha" id="password" name="password" type="password" class="validate">
+                    <input placeholder="Senha" id="password" name="password" type="password" class="validate" required minlength="6" maxlength="10">
                 </div>
 
                 <select name="group">
