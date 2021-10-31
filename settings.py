@@ -15,3 +15,4 @@ EMAIL = os.getenv('EMAIL', 'bestcenterempreendimentos@gmail.com')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', 'adminsenha1')
 FILE_UPLOAD = os.getenv('FILE_UPLOAD', 'upload\\')
 URL_APP = os.getenv('URL_APP', 'http://localhost:5000/')
+
