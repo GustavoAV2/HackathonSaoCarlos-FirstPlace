@@ -17,6 +17,8 @@ class Client(db.Model):
     cpf_or_cnpj = db.Column(db.String(16), nullable=False, unique=True)
     rg = db.Column(db.String(20), nullable=False, unique=False)
     legal_person = db.Column(db.Boolean(), default=True)
+    patrimony = db.Column(db.Integer(), nullable=False)
+    monthly_income = db.Column(db.Integer(), nullable=False)
 
     spouse_id = db.Column(db.Integer, db.ForeignKey('spouse.id'))
     spouse = relationship("Spouse", backref=backref("spouse", uselist=False))

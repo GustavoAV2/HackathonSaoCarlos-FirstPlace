@@ -1,6 +1,6 @@
 from uuid import uuid4
 from typing import Dict, NoReturn
-
+from settings import URL_APP
 from app.actions.serasa_actions import get_receita_by_cpf, get_receita_by_cnpj
 from app.models.client import Client
 from sqlalchemy.exc import IntegrityError, InterfaceError
