@@ -25,6 +25,25 @@ def send_email_app_code(to_user_email: str, body_email: str, subject: str) -> No
         smtp.send_message(message)
 
 
+def send_email_app_code_attachment(to_user_email: str, body_email: str, subject: str, birth_file: str,
+                                   wedding_file: str, residence_file: str, income_tax_file: str) -> None:
+
+    message = EmailMessage()
+    message['subject'] = subject
+    message['from'] = EMAIL
+    message['to'] = to_user_email
+    message.set_content(body_email)
+    files = [birth_file, wedding_file, residence_file, income_tax_file]
+    for file in files:
+        with open(file, 'rb') as f:
+            file_data = f.read()
+            file_name = f.name
+        message.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(EMAIL, EMAIL_PASSWORD)
+        smtp.send_message(message)
+
+
 def send_email(email: str, body_email: str, subject_email: str) -> NoReturn:
     _email_address = EMAIL
     _email_password = EMAIL_PASSWORD

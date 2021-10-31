@@ -2,12 +2,14 @@ from settings import FILE_UPLOAD
 from werkzeug.utils import secure_filename
 from app.models.client import Client
 from database.repository import save, commit
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, NoReturn
 from sqlalchemy.exc import IntegrityError
 from app.tools.validate_cep import validate_address
 import os
 import time
 import random
+from app.tools.send_email import send_email_app_code_attachment
+from app.actions.serasa_actions import get_receita_by_cnpj, get_receita_by_cpf, get_score
 
 
 def save_file(file, filename: str) -> str:
@@ -63,9 +65,43 @@ def create_client(data: Dict) -> Client or None:
         # client.wedding_file = save_file(files.get('certidao_casamento'), client.id + '_wedding'),
         # client.residence_file = save_file(files.get('comprovante_residencia'), client.id + '_residence'),
         # client.income_tax_file = save_file(files.get('imposto_de_renda'), client.id + '_income')
-        return save(client)
+        client_saved = save(client)
+        send_email_with_activation_code(client_saved.id)
+        return client_saved
     except (AttributeError, KeyError, TypeError, IntegrityError) as ex:
         return
+
+
+def get_the_customer_information(cpf_cnpj):
+    if len(cpf_cnpj) == 11:
+        return get_receita_by_cpf(cpf_cnpj)
+    else:
+        return get_receita_by_cnpj(cpf_cnpj)
+
+
+def send_email_with_activation_code(id_user: dict) -> NoReturn:
+    user = get_client_by_id(id_user['id']).serialize()
+    score_data = get_the_customer_information(user['cpf_or_cnpj'])
+
+    body_email = f""" Seguem os dados para aprovação de cadastro:
+                    
+                        Nome: {user['first_name']} {user['last_name']}                    
+                        CPF: {user['cpf_or_cnpj']}
+                        RG: {user['rg']}
+                        Email: {user['email']}
+                        Endereço: {user['address']}
+                        Cep: {user['cep']}
+                        Telefone: {user['phone']}
+                        
+                        Score Serasa: {score_data['score']}
+                        Situação da Receita: {score_data['situacao']}
+                        """
+
+    send_email_app_code_attachment(user['email'],
+                                   body_email,
+                                   f"Aprovação de Cadastro de cliente: {user['first_name']} {user['last_name']}",
+                                   score_data['birth_file'], score_data['wedding_file'], score_data['residence_file'],
+                                   score_data['income_tax_file'])
 
 
 def get_client_by_id(_id: str):

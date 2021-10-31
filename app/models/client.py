@@ -29,6 +29,12 @@ class Client(db.Model):
     def serialize(self):
         return {
                 'id': self.id,
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'cpf_or_cnpj': self.cpf_or_cnpj,
+                'rg': self.rg,
+                'address': self.address,
+                'phone': self.phone,
                 'email': self.email,
                 'active': self.active
                 }
