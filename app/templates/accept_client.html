@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body id="register">
+    <div class="container">
+        <h3 class="mt-0 text-white">Autorizar Solicitação</h3><hr>
+
+        <form action="/next_level/{{id_request}}" enctype="multipart/form-data" name="login" method="post">
+            {% if status %}
+                <div style="color:green;">
+                    <div role="alert">
+                        {{ message }}
+                    </div>
+                </div>
+            {% else %}
+                <div style="color:red;">
+                    <div role="alert">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="input-field">
+                <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="tel" class="validate" required minlength="11" maxlength="14">
+            </div>
+
+            <div class="text-right mt-4">
+                <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text">Enviar</button>
+            </div>
+        </form>
+
+    </div>
+</body>
+{% endblock %}
