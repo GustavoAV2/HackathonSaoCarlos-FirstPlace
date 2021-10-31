@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -19,3 +20,10 @@ URL_APP = os.getenv('URL_APP', 'http://localhost:5000/')
 SEND_ALL_GROUP = True
 STANDARD_MESSAGE = os.getenv('URL_APP', 'Proposta para análise')
 URL_ACCEPT = os.getenv('URL_APP', 'next_level/')
+
+COMPANY_CREATION_DATE_CRITERIA = {'Muito bom': 10, "Bom": 5, 'Ruim': 2, 'Muito ruim': 0}
+SERASA_PENDENCIES = ['Constam dívidas pendentes do titular', 'Regular']
+ALLOWED_CPF_CNPJ_SITUATIONS = {'Regular', 'Pendente de regularização'}
+MINIMUM_SERASA_SCORE = 501
+
+RISK_LEVEL_APPROVAL_POINTS = {0: 'Risco Baixo', 3: 'Risco Moderado', 5: 'Risco Alto', 7: "Risco muito alto"}

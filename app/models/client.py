@@ -1,6 +1,8 @@
 from uuid import uuid4
-from database import db
+
 from sqlalchemy.orm import relationship, backref
+
+from database import db
 
 
 class Client(db.Model):
@@ -29,7 +31,7 @@ class Client(db.Model):
 
     def serialize(self):
         return {
-                'id': self.id,
-                'email': self.email,
-                'active': self.active
-                }
+            'id': self.id,
+            'email': self.email,
+            'active': self.active
+        }

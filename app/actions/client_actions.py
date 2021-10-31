@@ -1,10 +1,13 @@
-from uuid import uuid4
 from typing import Dict
-from app.models.client import Client
+from uuid import uuid4
+
 from sqlalchemy.exc import IntegrityError, InterfaceError
-from database.repository import save, commit
+
 from app.actions.actions_file import save_file
+from app.actions.scores_actions import create_client_scores
+from app.models.client import Client
 from app.tools.validate_cep import validate_address
+from database.repository import save, commit
 
 
 def create_client(data: Dict, files) -> Client or None:
@@ -33,7 +36,9 @@ def create_client(data: Dict, files) -> Client or None:
         client.birth_file = save_file(files.get('birth_file', ''), _id + '_birth')
         client.residence_file = save_file(files.get('residence_file', ''), _id + '_residence')
         client.income_tax_file = save_file(files.get('income_tax_file', ''), _id + '_income')
-        return save(client)
+        save(client)
+        create_client_scores(client)
+        return client
     except (AttributeError, KeyError, TypeError, IntegrityError, InterfaceError):
         return
 
