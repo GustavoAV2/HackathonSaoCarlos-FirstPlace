@@ -13,8 +13,13 @@
                 {% if not status %}
                     <div style="color:green;">
                         <div role="alert">
-                            Sua solicitação foi enviada com sucesso!
-                            Após a analise você terá a resposta por e-mail.
+                            {{ message }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div style="color:red;">
+                        <div role="alert">
+                            {{ message }}
                         </div>
                     </div>
                 {% endif %}

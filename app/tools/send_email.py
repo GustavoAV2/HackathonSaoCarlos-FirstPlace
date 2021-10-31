@@ -1,12 +1,34 @@
 import smtplib
 from typing import NoReturn
 from settings import EMAIL, EMAIL_PASSWORD
+from email.message import EmailMessage
 
 
-def send_email(user: dict, body_email: str, subject_email: str) -> NoReturn:
+def send_email_app_code(to_user_email: str, body_email: str, subject: str) -> None:
+    """
+    Function to send email with smtlib, from Marvin email to "to_user_mail"
+    inserting "body_content" in content of email
+
+    :param to_user_email:
+    :param subject:
+    :param body_email:
+    :return:
+    """
+    message = EmailMessage()
+    message['subject'] = subject
+    message['from'] = EMAIL
+    message['to'] = to_user_email
+    message.set_content(body_email)
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(EMAIL, EMAIL_PASSWORD)
+        smtp.send_message(message)
+
+
+def send_email(email: str, body_email: str, subject_email: str) -> NoReturn:
     _email_address = EMAIL
     _email_password = EMAIL_PASSWORD
-    _email_receiver = user["email"]
+    _email_receiver = email
 
     with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
         smtp.ehlo()
