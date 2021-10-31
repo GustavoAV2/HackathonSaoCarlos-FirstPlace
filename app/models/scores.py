@@ -19,11 +19,11 @@ class Score(db.Model):
 
     risk_level = db.Column(db.String(84), nullable=False, default="")
 
-    first_approved = db.Column(db.String(84), nullable=False, default="não aprovado")
-    second_approved = db.Column(db.String(84), nullable=False, default="não aprovado")
-    third_approved = db.Column(db.String(84), nullable=False, default="não aprovado")
+    first_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
+    second_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
+    third_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
 
-    final_approve = db.Column(db.String(84), nullable=False, default="não aprovado")
+    final_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
 
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     client = relationship("Client", backref=backref("clients", uselist=False))

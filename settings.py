@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,3 +17,6 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', 'adminsenha1')
 FILE_UPLOAD = os.getenv('FILE_UPLOAD', 'upload\\')
 URL_APP = os.getenv('URL_APP', 'http://localhost:5000/')
 
+COMPANY_CREATION_DATE_CRITERIA = {'Muito bom': 10, "Bom": 5, 'Ruim': 2, 'Muito ruim': 0}
+ALLOWED_CPF_CNPJ_SITUATIONS = {'Regular', 'Pendente de regularização'}  # outros: 'Suspensa', 'Cancelada', 'Nula'
+APPROVAL_POINTS = {10: 'Aprovado com baixo risco', 7: 'Aprovado com alto risco', 5: 'Não aprovado'}

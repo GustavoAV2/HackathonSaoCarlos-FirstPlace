@@ -1,18 +1,16 @@
 from datetime import datetime
 
-from app.actions.client_actions import get_client_by_id
+# from app.actions.client_actions import get_client_by_id
 from app.actions.serasa_actions import get_receita_by_cpf, get_receita_by_cnpj
 from app.models.client import Client
 from app.models.scores import Score
 from database.repository import save
-
-# Company Settings
-COMPANY_CREATION_DATE_CRITERIA = {'very good': 10, "good": 5, 'bad': 2, 'very bad': 0}
+from settings import COMPANY_CREATION_DATE_CRITERIA, ALLOWED_CPF_CNPJ_SITUATIONS
 
 
 def create_client_scores(client: Client) -> Score or None:
     try:
-        client = get_client_by_id(client.id)
+        # client = get_client_by_id(client.id)
 
         if client:
             return save(Score(
@@ -20,6 +18,7 @@ def create_client_scores(client: Client) -> Score or None:
                 company_creation_date=get_company_creation_date_from_api(client),
                 cpf_or_cnpj_situation=cpf_or_cnpj_situation_from_api(client)
             ))
+
     except (AttributeError, KeyError, TypeError):
         return
 
@@ -67,13 +66,24 @@ def get_approvals():
 
 
 def first_approve(score):
+    '''
+    Consulta regularidade de cpf e criação da companhia se houver cnpj
+    cpf_or_cnpj_situation pode ser 'regular', 'Pendente de regularização', 'Suspensa' , 'Cancelada' ou 'Nula'
+
+    '''
+    approval_points = 0
     cpf_or_cnpj_situation = score.cpf_or_cnpj_situation
     company_creation_date_score = calculate_company_creation_date_score(score)
-    if cpf_or_cnpj_situation != "Regular":
-        score.first_approved = "não aprovado"
-        return score.first_approved
-    elif company_creation_date_score == "very good":
-        pass
+
+    if cpf_or_cnpj_situation in ALLOWED_CPF_CNPJ_SITUATIONS:
+        score.first_approve = "Aprovado"
+        return score.first_approve
+    elif company_creation_date_score == "Muito bom":
+        score.first_approve = "Aprovado com baixo risco"
+        return score.first_approve
+    elif company_creation_date_score == "Bom":
+        score.first_approve = "Aprovado com alto risco"
+        return score.first_approve
 
     pass
 
