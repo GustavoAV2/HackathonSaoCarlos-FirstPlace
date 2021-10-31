@@ -5,7 +5,7 @@
     <div class="container">
         <h3 class="mt-0 text-white">Cadastre seu cônjuge</h3><hr>
 
-        <form action="/spouse/{{ id }}/register" name="login" method="post">
+        <form action="/spouse/{{ id }}/register" enctype="multipart/form-data" name="login" method="post">
 
             <div class="row tm-register-row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-l">
@@ -23,7 +23,7 @@
                         </div>
                     {% endif %}
                     <div class="input-field">
-                        <input placeholder="Primeiro Nome" id="first_name" name="name" type="text" class="validate" required>
+                        <input placeholder="Primeiro Nome" id="first_name" name="first_name" type="text" class="validate" required>
                     </div>
                     <div class="input-field">
                         <input placeholder="Ultimo Nome" id="last_name" name="last_name" type="text" class="validate" required>
@@ -37,6 +37,12 @@
                     <div class="input-field">
                         <input placeholder="Telefone (Celular)" id="mobile" name="mobile" type="tel" class="validate" required>
                     </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 tm-pr-xs-0">
+                        <select name="type_person">
+                            <option selected value="">Pessoa Física</option>
+                            <option value="True">Pessoa Jurídica</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 tm-register-col-r">
@@ -46,6 +52,15 @@
 
                     <div class="input-field">
                         <input placeholder="Renda anual" id="income" name="income" type="number" class="validate" required>
+                    </div>
+
+                    <div class="input-field">
+                        <p class="simple-lbl">Certidão de casamento:</p>
+                        <input placeholder="Certidao de casamento" id="file4" name="wedding_file" type="file">
+                    </div>
+                    <div class="input-field">
+                        <p class="simple-lbl">Imposto de renda do último ano:</p>
+                        <input placeholder="Imposto de renda" id="file5" name="income_tax_file" type="file">
                     </div>
                 </div>
             </div>

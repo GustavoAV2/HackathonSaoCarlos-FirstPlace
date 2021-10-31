@@ -1,42 +1,17 @@
-from settings import FILE_UPLOAD
-from werkzeug.utils import secure_filename
+from uuid import uuid4
+from typing import Dict, NoReturn
+
+from app.actions.serasa_actions import get_receita_by_cpf, get_receita_by_cnpj
 from app.models.client import Client
-from database.repository import save, commit
-from typing import Dict, List, Tuple, NoReturn
-from sqlalchemy.exc import IntegrityError
-from app.tools.validate_cep import validate_address
-import os
-import time
-import random
+from sqlalchemy.exc import IntegrityError, InterfaceError
+
 from app.tools.send_email import send_email_app_code_attachment
-from app.actions.serasa_actions import get_receita_by_cnpj, get_receita_by_cpf, get_score
+from database.repository import save, commit
+from app.actions.actions_file import save_file
+from app.tools.validate_cep import validate_address
 
 
-def save_file(file, filename: str) -> str:
-    if file:
-        upload_folder = os.path.join(os.getcwd(), f'{FILE_UPLOAD}{filename}')
-        try:
-            os.mkdir(upload_folder)
-            time.sleep(0.2)
-        except (FileExistsError, FileNotFoundError):
-            pass
-        save_path: str = os.path.join(upload_folder, secure_filename(file.filename))
-        try:
-            if os.path.isfile(save_path):
-                random_number: int = random.randint(0, 1000)
-                save_path_rename: str = save_path[:-4] + str(random_number) + save_path[-4:]
-                file.save(save_path_rename)
-            file.save(save_path)
-
-        except (FileExistsError, FileNotFoundError):
-            pass
-
-        file_path = upload_folder[-43:] + "\\" + file.filename
-        return file_path
-    return ''
-
-
-def create_client(data: Dict) -> Client or None:
+def create_client(data: Dict, files) -> Client or None:
     if not validate_address(data.get('zipcode')):
         return
     try:
@@ -45,8 +20,9 @@ def create_client(data: Dict) -> Client or None:
         legal_person = False
 
     try:
-        files = data.get('files')
+        _id = str(uuid4())
         client = Client(
+            id=_id,
             first_name=data.get('first_name'),
             last_name=data.get('last_name'),
             email=data.get('email'),
@@ -57,14 +33,10 @@ def create_client(data: Dict) -> Client or None:
             cpf_or_cnpj=data.get('cpf_or_cnpj'),
             legal_person=legal_person
         )
-        client.birth_file = ''
-        client.wedding_file = ''
-        client.residence_file = ''
-        client.income_tax_file = ''
-        # client.birth_file = save_file(files.get('certidao_nascimento'), client.id + '_birth'),
-        # client.wedding_file = save_file(files.get('certidao_casamento'), client.id + '_wedding'),
-        # client.residence_file = save_file(files.get('comprovante_residencia'), client.id + '_residence'),
-        # client.income_tax_file = save_file(files.get('imposto_de_renda'), client.id + '_income')
+
+        client.birth_file = save_file(files.get('birth_file', ''), _id + '_birth')
+        client.residence_file = save_file(files.get('residence_file', ''), _id + '_residence')
+        client.income_tax_file = save_file(files.get('income_tax_file', ''), _id + '_income')
         client_saved = save(client)
         send_email_with_activation_code(client_saved.id)
         return client_saved
@@ -84,23 +56,24 @@ def send_email_with_activation_code(id_user: dict) -> NoReturn:
     score_data = get_the_customer_information(user['cpf_or_cnpj'])
 
     body_email = f""" Seguem os dados para aprovação de cadastro:
-                    
-                        Nome: {user['first_name']} {user['last_name']}                    
-                        CPF: {user['cpf_or_cnpj']}
-                        RG: {user['rg']}
-                        Email: {user['email']}
-                        Endereço: {user['address']}
-                        Cep: {user['cep']}
-                        Telefone: {user['phone']}
-                        
-                        Score Serasa: {score_data['score']}
-                        Situação da Receita: {score_data['situacao']}
-                        """
+
+                            Nome: {user['first_name']} {user['last_name']}                    
+                            CPF: {user['cpf_or_cnpj']}
+                            RG: {user['rg']}
+                            Email: {user['email']}
+                            Endereço: {user['address']}
+                            Cep: {user['cep']}
+                            Telefone: {user['phone']}
+
+                            Score Serasa: {score_data['score']}
+                            Situação da Receita: {score_data['situacao']}
+                            """
 
     send_email_app_code_attachment(user['email'],
                                    body_email,
                                    f"Aprovação de Cadastro de cliente: {user['first_name']} {user['last_name']}",
-                                   score_data['birth_file'], score_data['wedding_file'], score_data['residence_file'],
+                                   score_data['birth_file'], score_data['wedding_file'],
+                                   score_data['residence_file'],
                                    score_data['income_tax_file'])
 
 
