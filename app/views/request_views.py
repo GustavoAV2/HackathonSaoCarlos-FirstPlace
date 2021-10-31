@@ -18,3 +18,10 @@ def decline(id_request) -> Tuple[Any, int]:
     data = {'approved': False}
     update_request(data, id_request)
     return jsonify(request.serialize()), 200
+
+
+# @app_request.route('/request/develop', methods=['GET'])
+# def develop_create() -> Tuple[Any, int]:
+#     from app.tools.creating_user_groups import create_users_and_groups
+#     create_users_and_groups()
+#     return jsonify({}), 200

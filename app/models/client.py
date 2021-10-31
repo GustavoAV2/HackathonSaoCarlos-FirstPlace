@@ -10,7 +10,7 @@ class Client(db.Model):
     active = db.Column(db.Boolean(), default=True)
     first_name = db.Column(db.String(150), nullable=False, unique=False)
     last_name = db.Column(db.String(150), nullable=False, unique=False)
-    email = db.Column(db.String(84), nullable=False, unique=True)
+    email = db.Column(db.String(84), nullable=False, unique=False)
     phone = db.Column(db.String(20), nullable=True, unique=True)
     address = db.Column(db.String(150), nullable=True, unique=False)
     cep = db.Column(db.String(10), nullable=True, unique=False)

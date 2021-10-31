@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f0ccc2026643
+Revision ID: 53ea42aca24c
 Revises: 
-Create Date: 2021-10-31 16:36:07.953740
+Create Date: 2021-10-31 16:53:00.152947
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f0ccc2026643'
+revision = '53ea42aca24c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,7 +25,6 @@ def upgrade():
     sa.Column('level', sa.Integer(), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
     sa.UniqueConstraint('level'),
     sa.UniqueConstraint('name')
     )
@@ -40,8 +39,7 @@ def upgrade():
     sa.Column('rg', sa.String(length=20), nullable=False),
     sa.Column('income_tax_file', sa.String(length=200), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('cpf_or_cnpj'),
-    sa.UniqueConstraint('email')
+    sa.UniqueConstraint('cpf_or_cnpj')
     )
     op.create_table('clients',
     sa.Column('id', sa.String(length=36), nullable=False),
@@ -63,7 +61,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['spouse_id'], ['spouse.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf_or_cnpj'),
-    sa.UniqueConstraint('email'),
     sa.UniqueConstraint('phone')
     )
     op.create_table('users',
@@ -73,8 +70,7 @@ def upgrade():
     sa.Column('password', sa.String(length=128), nullable=True),
     sa.Column('group_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['group_id'], ['groups.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('requests',
     sa.Column('id', sa.String(length=36), nullable=False),
