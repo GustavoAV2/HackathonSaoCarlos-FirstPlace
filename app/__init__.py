@@ -1,3 +1,4 @@
+from app.views.scores_views import app_scores
 from database import db, migrate
 from flask import Flask
 from flask_cors import CORS
@@ -20,5 +21,6 @@ def create_app():
 
 def _register_blueprint(app: Flask):
     app.register_blueprint(app_users)
+    app.register_blueprint(app_scores)
     app.register_blueprint(app_views)
     app.register_blueprint(app_request)

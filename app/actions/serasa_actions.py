@@ -1,7 +1,11 @@
 import json
-import requests
+import random
 from random import randint
+
+import requests
+
 from app.tools.validate_cpf_and_cnpj import validate_cpf, validate_cnpj
+from settings import SERASA_PENDENCIES
 
 
 def get_receita_by_cpf(cpf: str):
@@ -36,10 +40,20 @@ def get_receita_by_cnpj(cnpj: str):
 
 def get_score(user):
     """
-    Função que deve buscar o score do Cliente.
+    Função que deve buscar o score do Cliente via API paga.
     :param user:
     :return:
     """
     user['score'] = randint(1, 1000)
     return user
 
+
+def get_serasa_pendencies():
+    """
+    Função que deve buscar o score do Cliente via API paga.
+    :param user:
+    :return:
+    """
+    pendencies_list = SERASA_PENDENCIES
+    pendency = random.choice(pendencies_list)
+    return pendency

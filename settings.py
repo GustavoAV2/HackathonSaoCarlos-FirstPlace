@@ -18,5 +18,8 @@ FILE_UPLOAD = os.getenv('FILE_UPLOAD', 'upload\\')
 URL_APP = os.getenv('URL_APP', 'http://localhost:5000/')
 
 COMPANY_CREATION_DATE_CRITERIA = {'Muito bom': 10, "Bom": 5, 'Ruim': 2, 'Muito ruim': 0}
-ALLOWED_CPF_CNPJ_SITUATIONS = {'Regular', 'Pendente de regularização'}  # outros: 'Suspensa', 'Cancelada', 'Nula'
-APPROVAL_POINTS = {10: 'Aprovado com baixo risco', 7: 'Aprovado com alto risco', 5: 'Não aprovado'}
+SERASA_PENDENCIES = ['Constam dívidas pendentes do titular', 'Regular']
+ALLOWED_CPF_CNPJ_SITUATIONS = {'Regular', 'Pendente de regularização'}
+MINIMUM_SERASA_SCORE = 501
+
+RISK_LEVEL_APPROVAL_POINTS = {0: 'Risco Baixo', 3: 'Risco Moderado', 5: 'Risco Alto', 7: "Risco muito alto"}

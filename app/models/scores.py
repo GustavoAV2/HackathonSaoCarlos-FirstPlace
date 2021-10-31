@@ -17,13 +17,16 @@ class Score(db.Model):
     cpf_or_cnpj_situation = db.Column(db.Boolean(), default=True)
     company_creation_date = db.Column(db.String(84), default="")
 
-    risk_level = db.Column(db.String(84), nullable=False, default="")
+    serasa_score = db.Column(db.Integer, default=0)
+    serasa_pendency = db.Column(db.String(84), nullable=False, default="")
 
-    first_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
-    second_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
-    third_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
+
+
+    # first_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
+    # second_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
 
     final_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
+    risk_level = db.Column(db.String(84), nullable=False, default="")
 
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     client = relationship("Client", backref=backref("clients", uselist=False))
