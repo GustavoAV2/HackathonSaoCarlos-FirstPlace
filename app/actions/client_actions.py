@@ -54,19 +54,30 @@ def get_the_customer_information(cpf_cnpj):
 def send_email_with_activation_code(id_user: dict) -> NoReturn:
     user = get_client_by_id(id_user['id']).serialize()
     score_data = get_the_customer_information(user['cpf_or_cnpj'])
-
+    spouse = f"""Conjuge: {user.spouse.first_name} {user.spouse.last_name}
+                 Conjuge Email: {user.spouse.email}
+                 Conjuge CPF: {user.spouse.cpf_or_cnpj}
+                 Conjuge RG: {user.spouse.rg}"""
+    spouse_exist = ''
+    if user.spouse.first_name is not None and user.spouse.first_name.strip() != "":
+        spouse_exist = spouse
     body_email = f""" Seguem os dados para aprovação de cadastro:
 
                             Nome: {user['first_name']} {user['last_name']}                    
-                            CPF: {user['cpf_or_cnpj']}
+                            CPF/CNPJ: {user['cpf_or_cnpj']}
                             RG: {user['rg']}
                             Email: {user['email']}
                             Endereço: {user['address']}
                             Cep: {user['cep']}
-                            Telefone: {user['phone']}
-
+                            Telefone: {user['phone']}                            
+                            
+                            
                             Score Serasa: {score_data['score']}
                             Situação da Receita: {score_data['situacao']}
+
+                            
+                            {spouse_exist}
+
 
                             Aprovar: {URL_APP}/1qe1wr3etmnb3r3ety1ym/nb3vcXxzs2b3r3etyh48yt94j/{user['id']}
 
@@ -79,7 +90,7 @@ def send_email_with_activation_code(id_user: dict) -> NoReturn:
                                    f"Aprovação de Cadastro de cliente: {user['first_name']} {user['last_name']}",
                                    score_data['birth_file'], score_data['wedding_file'],
                                    score_data['residence_file'],
-                                   score_data['income_tax_file'])
+                                   score_data['income_tax_file'], user.spouse.income_tax_file)
 
 
 def get_client_by_id(_id: str):
@@ -90,6 +101,7 @@ def to_approve(id: str):
     client = get_client_by_id(id)
     client.financial_registration_approval = True
     return
+
 
 def to_disapprove(id: str):
     client = get_client_by_id(id)

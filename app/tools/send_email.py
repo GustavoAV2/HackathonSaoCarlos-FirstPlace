@@ -26,14 +26,16 @@ def send_email_app_code(to_user_email: str, body_email: str, subject: str) -> No
 
 
 def send_email_app_code_attachment(to_user_email: str, body_email: str, subject: str, birth_file: str,
-                                   wedding_file: str, residence_file: str, income_tax_file: str) -> None:
-
+                                   wedding_file: str, residence_file: str, income_tax_file: str,
+                                   income_tax_file_spouse) -> None:
     message = EmailMessage()
     message['subject'] = subject
     message['from'] = EMAIL
     message['to'] = to_user_email
     message.set_content(body_email)
     files = [birth_file, wedding_file, residence_file, income_tax_file]
+    if income_tax_file_spouse:
+        files.append(income_tax_file_spouse)
     for file in files:
         with open(file, 'rb') as f:
             file_data = f.read()

@@ -91,13 +91,16 @@ def spouse_register_view(_id):
     return redirect('/register')
 
 
-@app_views.route('/1qe1wr3etmnb3r3ety1ym/nb3vcXxzs2b3r3etyh48yt94j/<id>', methods=['POST'])
-def link_to_approve(id: str):
-    to_approve(id)
+@app_views.route('/1qe1wr3etmnb3r3ety1ym/nb3vcXxzs2b3r3etyh48yt94j/<id_>', methods=['POST', 'GET'])
+def link_to_approve(id_: str):
+    render_template('/approve.html')
+    to_approve(id_)
     return jsonify({}), 200
 
 
-@app_views.route('/3ety1ymnbmnb3r3ety1ym/nb3vcXxzs2dwrmnb3vcXeyt94j/<id>', methods=['POST'])
-def link_to_disapprove(id: str):
-    to_disapprove(id)
+@app_views.route('/3ety1ymnbmnb3r3ety1ym/nb3vcXxzs2dwrmnb3vcXeyt94j/<id_>', methods=['POST', 'GET'])
+def link_to_disapprove(id_: str):
+
+    render_template('/disapprove.html')
+    to_disapprove(id_)
     return jsonify({}), 200
