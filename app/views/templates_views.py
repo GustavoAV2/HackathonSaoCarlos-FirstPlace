@@ -2,10 +2,10 @@ from werkzeug.utils import secure_filename
 from uuid import uuid4
 from app.models.users import User
 from app.actions.groups_actions import get_groups
-from app.actions.client_actions import create_client
-from app.actions.client_actions import create_client, save_file, download_file_save
+from app.actions.client_actions import create_client, download_file_save
 from app.actions.users_actions import login, create_user
 from flask import Blueprint, render_template, request, redirect
+from app.actions.client_actions import create_client, get_client_by_id
 
 import os
 import time
@@ -50,17 +50,22 @@ def register_view():
     if request.method == 'GET':
         return render_template('register_client.html', status=True)
 
-    if request.method == 'POST':
-        rg = request.files['rg']
-        comprovante_residencia = request.files['comprovante_residencia']
-        certidao_nascimento = request.files['certidao_nascimento']
-        certidao_casamento = request.files['certidao_casamento']
-        imposto_de_renda = request.files['imposto_de_renda']
-
-        uuid_and_files: tuple = download_file_save(rg, comprovante_residencia,
-                                                   certidao_nascimento, certidao_casamento, imposto_de_renda)
-        content = request.values
-        create_client(content, uuid_and_files[0], uuid_and_files[1], uuid_and_files[2], uuid_and_files[3],
-                      uuid_and_files[4], uuid_and_files[5])
-        # consult_score(content)
+    content = request.values
+    create_client(content)
+    # consult_score(content)
     return render_template('register_client.html', status=True)
+
+
+@app_views.route('/spouse/<_id>/register', methods=['POST', 'GET'])
+def spouse_register_view(_id):
+    user = get_client_by_id(_id)
+    if user:
+        if request.method == 'GET':
+            return render_template('register_spouse.html', id=_id, status=True)
+
+        content = request.values
+        user: User = create_user(content)
+        if user:
+            return render_template('register_user.html', status=False, message="Sua solicitação "
+                                   "foi enviada com sucesso!Após a analise você terá a resposta por e-mail.")
+    return redirect('/register')

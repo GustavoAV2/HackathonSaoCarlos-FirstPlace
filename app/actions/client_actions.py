@@ -6,24 +6,15 @@ from app.models import request
 from app.models.client import Client
 from database.repository import save, delete, commit
 from typing import Dict, List, Tuple
+from sqlalchemy.exc import IntegrityError
 from app.tools.validate_cep import validate_address
 import os
 import time
 import random
 
 
-def download_file_save(rg_file, birth_file, wedding_file, residence_file, income_tax_file) -> Tuple:
-    id_user = str(uuid4())
-    rg_file_saved = save_file(rg_file, id_user)
-    birth_file_saved = save_file(birth_file, id_user)
-    wedding_file_saved = save_file(wedding_file, id_user)
-    residence_file_saved = save_file(residence_file, id_user)
-    income_tax_file_saved = save_file(income_tax_file, id_user)
-    return id_user, rg_file_saved, birth_file_saved, wedding_file_saved, residence_file_saved, income_tax_file_saved
-
-
-def save_file(file, user_id: str) -> str:
-    upload_folder = os.path.join(os.getcwd(), f'upload\\{user_id}')
+def save_file(file, filename: str) -> str:
+    upload_folder = os.path.join(os.getcwd(), f'upload\\{filename}')
     try:
         os.mkdir(upload_folder)
         time.sleep(0.2)
@@ -44,19 +35,17 @@ def save_file(file, user_id: str) -> str:
     return file_path
 
 
-def create_client(data: Dict, id_user: str, rg_file, birth_file, wedding_file, residence_file, income_tax_file) -> Client or None:
-    if validate_address(data.get('cep')) is None:
-        return "Endereço inválido"
-    else:
-        pass
-    if not validate_address(data.get('cep', '')):
+def create_client(data: Dict) -> Client or None:
+    if not validate_address(data.get('zipcode')):
         return
+    try:
+        legal_person = bool(data.get('legal_person')) if data.get('legal_person') else False
+    except (TypeError, ValueError):
+        legal_person = False
 
     try:
-        cli = Client()
-
-        return save(Client(
-            id=id_user,
+        files = data.get('files')
+        client = Client(
             name=data.get('name'),
             first_name=data.get('first_name'),
             last_name=data.get('last_name'),
@@ -64,13 +53,43 @@ def create_client(data: Dict, id_user: str, rg_file, birth_file, wedding_file, r
             address=data.get('address'),
             cep=data.get('cep'),
             cpf=data.get('cpf_or_cnpj'),
-            legal_person=data.get('legal_person'),
+            legal_person=legal_person
+        )
 
-            rg_file=rg_file,
-            birth_file=birth_file,
-            wedding_file=wedding_file,
-            residence_file=residence_file,
-            income_tax_file=income_tax_file
-        ))
+        client.rg_file = save_file(files.get('rg'), client.id + '_rg'),
+        client.birth_file = save_file(files.get('certidao_nascimento'), client.id + '_birth'),
+        client.wedding_file = save_file(files.get('certidao_casamento'), client.id + '_wedding'),
+        client.residence_file = save_file(files.get('comprovante_residencia'), client.id + '_residence'),
+        client.income_tax_file = save_file(files.get('imposto_de_renda'), index_name + '_income')
+        return save(client)
     except (AttributeError, KeyError, TypeError):
         return
+
+
+def get_client_by_id(_id: str):
+    return Client.query.get(_id)
+
+
+def update_user(client_id: str, data: Dict) -> Client:
+    client: Client = get_client_by_id(client_id)
+    list_keys = list(data.keys())
+
+    client.active = data.get('active') if list_keys.count('active') else client.active
+    client.first_name = data.get('first_name') if data.get('first_name') else client.first_name
+    client.last_name = data.get('last_name') if data.get('last_name') else client.last_name
+    client.email = data.get('email') if data.get('email') else client.email
+    client.phone = data.get('phone') if data.get('phone') else client.phone
+    client.address = data.get('address') if data.get('address') else client.address
+    client.cep = data.get('cep') if data.get('cep') else client.cep
+    client.cpf = data.get('cpf') if data.get('cpf') else client.cpf
+    client.legal_person = data.get('legal_person') if data.get('legal_person') else client.legal_person
+
+    # Update files
+    client.rg_file = data.get('rg_file') if data.get('rg_file') else client.rg_file
+    client.birth_file = data.get('birth_file') if data.get('birth_file') else client.birth_file
+    client.wedding_file = data.get('wedding_file') if data.get('wedding_file') else client.wedding_file
+    client.residence_file = data.get('residence_file') if data.get('residence_file') else client.residence_file
+    client.income_tax_file = data.get('income_tax_file') if data.get('income_tax_file') else client.income_tax_file
+
+    commit()
+    return client
