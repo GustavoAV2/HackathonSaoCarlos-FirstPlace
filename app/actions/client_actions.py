@@ -1,5 +1,5 @@
 from uuid import uuid4
-
+from settings import FILE_UPLOAD
 from werkzeug.utils import secure_filename
 import os.path
 from app.models import request
@@ -14,7 +14,7 @@ import random
 
 
 def save_file(file, filename: str) -> str:
-    upload_folder = os.path.join(os.getcwd(), f'upload\\{filename}')
+    upload_folder = os.path.join(os.getcwd(), f'{FILE_UPLOAD}{filename}')
     try:
         os.mkdir(upload_folder)
         time.sleep(0.2)
@@ -60,7 +60,7 @@ def create_client(data: Dict) -> Client or None:
         client.birth_file = save_file(files.get('certidao_nascimento'), client.id + '_birth'),
         client.wedding_file = save_file(files.get('certidao_casamento'), client.id + '_wedding'),
         client.residence_file = save_file(files.get('comprovante_residencia'), client.id + '_residence'),
-        client.income_tax_file = save_file(files.get('imposto_de_renda'), index_name + '_income')
+        client.income_tax_file = save_file(files.get('imposto_de_renda'), client.id + '_income')
         return save(client)
     except (AttributeError, KeyError, TypeError):
         return
