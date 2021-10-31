@@ -193,23 +193,6 @@ def second_approve(score: Score):
     return {"approvation": approvation, 'risk level': risk_level, 'reasons': reasons}
 
 
-# print(first_approve())
-# get_approvals()
-
-
-# print(get_receita_by_cpf('07889706901'))
-# print(get_receita_by_cnpj('07526557000100'))
-
-
-# print(first_approve())
-# def get_groups() -> List[Group]:
-#     groups = Group.query.all()
-#     return groups
-#
-#
-# def get_group_by_name(name: str):
-#     return Group.query.filter(Group.name == name).first()
-
 def cpf_or_cnpj_situation_from_api(client: Client) -> Score or None:
     try:
         cpf_or_cnpj = client.cpf_or_cnpj
