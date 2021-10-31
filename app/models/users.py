@@ -9,7 +9,7 @@ class User(db.Model):
 
     id = db.Column(db.String(36), default=lambda: str(uuid4()), primary_key=True)
     active = db.Column(db.Boolean(), default=True)
-    email = db.Column(db.String(84), nullable=False, unique=True)
+    email = db.Column(db.String(84), nullable=False, unique=False)
     password = db.Column(db.String(128), nullable=True)
 
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))

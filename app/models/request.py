@@ -1,3 +1,4 @@
+import datetime
 from uuid import uuid4
 from database import db
 from sqlalchemy.orm import relationship, backref
@@ -7,6 +8,8 @@ class Request(db.Model):
     __tablename__ = 'requests'
 
     id = db.Column(db.String(36), default=lambda: str(uuid4()), primary_key=True)
+    created_date = db.Column(db.DateTime, default=datetime.datetime.now())
+    level = db.Column(db.Integer, nullable=False, unique=False, default=1)
     approved = db.Column(db.Boolean(), default=False)
     active = db.Column(db.Boolean(), default=True)
 

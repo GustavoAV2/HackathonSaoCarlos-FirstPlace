@@ -1,10 +1,12 @@
 from app.models.users import User
 from app.actions.groups_actions import get_groups
 from app.actions.spouse_actions import create_spouse
+from app.actions.request_actions import create_request
 from app.actions.users_actions import login, create_user
 from flask import Blueprint, render_template, request, redirect
-from app.actions.client_actions import create_client, get_client_by_id, update_user
-from app.actions.send_email_actions import send_analysis_message, send_register_spouse_url
+from app.actions.client_actions import create_client, get_client_by_id, update_client
+from app.actions.send_email_actions import send_client_analysis_message, send_client_register_spouse_url, \
+    send_alert_group
 
 
 app_views = Blueprint('views', __name__)
@@ -13,8 +15,7 @@ app_views = Blueprint('views', __name__)
 # Templates
 @app_views.route('/', methods=['GET'])
 def home_view():
-    _json = request.get_json()
-    return render_template('index.html')
+    return redirect('/register')
 
 
 @app_views.route('/login', methods=['POST', 'GET'])
@@ -49,41 +50,43 @@ def register_view():
 
     content = request.values
     files = request.files
-    user = create_client(content, files)
-    if user:
+    client = create_client(content, files)
+    if client:
+        # consult_score(content)
         try:
             if content.get('spouse'):
-                send_register_spouse_url(user.email, f'spouse/{user.id}/register')
+                send_client_register_spouse_url(client.email, f'spouse/{client.id}/register')
 
                 return render_template('register_spouse.html', status=True, message='Cadastre seu conjugê para terminar'
                                                                                     ' a solicitação!')
         except (ValueError, TypeError):
             ...
-
-        send_analysis_message(user.email)
-        # consult_score(content)
-        return render_template('register_client.html', status=True, message='Sua solicitação foi enviada com sucesso!\n'
-                               'Após a analise você terá a resposta por e-mail.')
+        if create_request(client.id):
+            send_client_analysis_message(client.email)
+            send_alert_group(client.id)
+            return render_template('register_client.html', status=True, message='Sua solicitação foi enviada com '
+                                   'sucesso!\nApós a analise você terá a resposta por e-mail.')
     return render_template('register_client.html', status=False, message='Erro na solicitação, verifique os campos!')
 
 
 @app_views.route('/spouse/<_id>/register', methods=['POST', 'GET'])
 def spouse_register_view(_id):
-    user = get_client_by_id(_id)
-    if user:
+    client = get_client_by_id(_id)
+    if client:
         if request.method == 'GET':
             return render_template('register_spouse.html', id=_id, status=True)
 
         content = request.values
         files = request.files
-        spouse = create_spouse(content, files)
         if files.get('wedding_file'):
+            spouse = create_spouse(content, files)
             if spouse:
-                update_user(_id, {'spouse_id': spouse.id, 'wedding_file': files.get('wedding_file')})
-
-                send_analysis_message(user.email)
-                return render_template('register_spouse.html', status=True, message='Sua solicitação '
-                                       'foi enviada com sucesso!\nApós a analise você terá a resposta por e-mail.')
+                update_client(_id, {'spouse_id': spouse.id, 'wedding_file': files.get('wedding_file')})
+                if create_request(_id):
+                    send_client_analysis_message(client.email)
+                    send_alert_group(_id)
+                    return render_template('register_spouse.html', status=True, message='Sua solicitação '
+                                           'foi enviada com sucesso!\nApós a analise você terá a resposta por e-mail.')
 
         return render_template('register_spouse.html', status=False,
                                message='Erro na solicitação, verifique os campos!')
