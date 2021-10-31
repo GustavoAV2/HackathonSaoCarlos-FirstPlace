@@ -15,3 +15,7 @@ EMAIL = os.getenv('EMAIL', 'bestcenterempreendimentos@gmail.com')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', 'adminsenha1')
 FILE_UPLOAD = os.getenv('FILE_UPLOAD', 'upload\\')
 URL_APP = os.getenv('URL_APP', 'http://localhost:5000/')
+
+SEND_ALL_GROUP = True
+STANDARD_MESSAGE = os.getenv('URL_APP', 'Proposta para análise')
+URL_ACCEPT = os.getenv('URL_APP', 'next_level/')

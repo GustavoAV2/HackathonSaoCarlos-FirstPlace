@@ -42,7 +42,7 @@ def get_client_by_id(_id: str):
     return Client.query.get(_id)
 
 
-def update_user(client_id: str, data: Dict) -> Client or None:
+def update_client(client_id: str, data: Dict) -> Client or None:
     try:
         client: Client = get_client_by_id(client_id)
         list_keys = list(data.keys())

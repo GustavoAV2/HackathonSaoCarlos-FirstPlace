@@ -1,13 +1,13 @@
 from typing import Dict
 from app.models.request import Request
-from app.actions.users_actions import get_user_by_id
+from app.actions.client_actions import get_client_by_id
 from database.repository import save, delete, commit
 from app.actions.groups_actions import get_groups
 
 
 def create_request(client_id):
     try:
-        user = get_user_by_id(client_id)
+        user = get_client_by_id(client_id)
         if user:
             return save(Request(
                 client_id=user.id
