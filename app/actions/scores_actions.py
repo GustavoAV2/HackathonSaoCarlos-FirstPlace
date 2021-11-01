@@ -197,9 +197,9 @@ def cpf_or_cnpj_situation_from_api(client: Client) -> Score or None:
     try:
         cpf_or_cnpj = client.cpf_or_cnpj
         if client.legal_person:
-            receita_dict = get_receita_by_cpf(cpf_or_cnpj)
-        else:
             receita_dict = get_receita_by_cnpj(cpf_or_cnpj)
+        else:
+            receita_dict = get_receita_by_cpf(cpf_or_cnpj)
 
         cpf_or_cnpj_situation = receita_dict.get('situacao')
 
@@ -214,7 +214,7 @@ def cpf_or_cnpj_situation_from_api(client: Client) -> Score or None:
 
 def get_company_creation_date_from_api(client: Client):
     try:
-        if client.legal_person:
+        if not client.legal_person:
             return ""
         else:
             receita_dict = get_receita_by_cnpj(client.cpf_or_cnpj)
@@ -230,7 +230,10 @@ def get_company_creation_date_from_api(client: Client):
 
 def get_serasa_score_from_api(client: Client):
     try:
-        receita_dict = get_receita_by_cnpj(client.cpf_or_cnpj)
+        if client.legal_person:
+            receita_dict = get_receita_by_cnpj(client.cpf_or_cnpj)
+        else:
+            receita_dict = get_receita_by_cpf(client.cpf_or_cnpj)
         serasa_score = receita_dict.get("score")
         if serasa_score:
             return int(serasa_score)
