@@ -23,6 +23,7 @@ class Client(db.Model):
     spouse_id = db.Column(db.Integer, db.ForeignKey('spouse.id'))
     spouse = relationship("Spouse", backref=backref("spouse", uselist=False))
     request = relationship("Request", backref=backref("requests", uselist=False))
+    score = relationship("Score", backref=backref("scores", uselist=False))
 
     birth_file = db.Column(db.String(200), nullable=False, unique=False)
     wedding_file = db.Column(db.String(200), nullable=True, unique=False)

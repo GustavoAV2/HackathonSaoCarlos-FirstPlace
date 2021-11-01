@@ -54,7 +54,7 @@ def get_the_customer_information(cpf_cnpj):
 
 def creating_body_mail(client_id: str, urls):
     user = get_client_by_id(client_id)
-    score = get_score_by_id(user.id)
+    score = get_score_by_id(user.score.id)
     approvals = get_approvals(score)
     score_data = get_the_customer_information(user.cpf_or_cnpj)
 
