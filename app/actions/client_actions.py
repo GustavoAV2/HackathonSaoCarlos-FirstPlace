@@ -54,7 +54,7 @@ def get_the_customer_information(cpf_cnpj):
 
 def creating_body_mail(client_id: str, urls):
     user = get_client_by_id(client_id)
-    score = get_score_by_id(user.score.id)
+    score = get_score_by_id(user.score[0].id)
     approvals = get_approvals(score)
     score_data = get_the_customer_information(user.cpf_or_cnpj)
 
@@ -67,13 +67,11 @@ def creating_body_mail(client_id: str, urls):
                       Endereço: {user.address}
                       Cep: {user.cep}
                       Telefone: {user.phone}
-
-                      Score Serasa: {score_data['score']}
                       Situação da Receita: {score_data['situacao']}\n
 
                       Avaliação: {approvals.get('approvation')}
                       Avaliação automática de risco: {approvals.get('risk level')} de inadimplência
-                      Motivos: {get_approval_reasons(score)}
+                      Motivos: {str(get_approval_reasons(score)).replace('[','').replace(']','')}
                     """ + urls
     return {'user': user, 'score_data': score_data, 'body': body_email}
 

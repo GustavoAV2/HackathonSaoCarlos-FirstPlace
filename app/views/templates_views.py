@@ -54,7 +54,6 @@ def register_view():
     files = request.files
     client = create_client(content, files)
     if client:
-        # consult_score(content)
         try:
             if content.get('spouse'):
                 send_client_register_spouse_url(client.email, f'spouse/{client.id}/register')
@@ -65,6 +64,7 @@ def register_view():
             ...
         if create_request(client.id):
             send_client_analysis_message(client.email)
+            time.sleep(1)
             send_alert_group(client.id)
             return render_template('register_client.html', status=True, message='Sua solicitação foi enviada com '
                                    'sucesso!\nApós a analise você terá a resposta por e-mail.')

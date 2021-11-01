@@ -61,7 +61,7 @@ def get_approvals(score):
 
     update_score(score, risk_level_string, approvation)
 
-    return {"approvation": approvation, 'risk level': risk_level}
+    return {"approvation": approvation, 'risk level': risk_level_string}
 
 
 def update_score(score: Score, risk_level_string, approvation) -> Score:

@@ -10,10 +10,10 @@ class Score(db.Model):
 
     id = db.Column(db.String(36), default=lambda: str(uuid4()), primary_key=True)
 
-    cpf_or_cnpj_situation = db.Column(db.Boolean(), default=True)
+    cpf_or_cnpj_situation = db.Column(db.String(84), default="")
     company_creation_date = db.Column(db.String(84), default="")
 
-    serasa_score = db.Column(db.Integer, default=0)
+    serasa_score = db.Column(db.Integer)
     serasa_pendency = db.Column(db.String(84), nullable=False, default="")
 
     final_approve = db.Column(db.String(84), nullable=False, default="pendente de aprovação")
