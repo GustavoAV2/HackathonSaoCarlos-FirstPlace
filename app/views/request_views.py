@@ -36,8 +36,8 @@ def decline(id_request) -> Tuple[Any, int]:
                            status=True, message='Solicitação NEGADA!')
 
 
-# @app_request.route('/request/develop', methods=['GET'])
-# def develop_create() -> Tuple[Any, int]:
-#     from app.tools.creating_user_groups import create_users_and_groups
-#     create_users_and_groups()
-#     return jsonify({}), 200
+@app_request.route('/request/develop', methods=['GET'])
+def develop_create() -> Tuple[Any, int]:
+    from app.tools.creating_user_groups import create_users_and_groups
+    create_users_and_groups()
+    return jsonify({}), 200

@@ -1,6 +1,7 @@
+import os
 import smtplib
 from typing import NoReturn
-from settings import EMAIL, EMAIL_PASSWORD
+from settings import EMAIL, EMAIL_PASSWORD, FILE_UPLOAD
 from email.message import EmailMessage
 
 
@@ -20,6 +21,35 @@ def send_email_app_code(to_user_email: str, body_email: str, subject: str) -> No
     message['to'] = to_user_email
     message.set_content(body_email)
 
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(EMAIL, EMAIL_PASSWORD)
+        smtp.send_message(message)
+
+
+def send_email_app_code_attachment(to_user_email: str, body_email: str, subject: str, birth_file: str,
+                                   wedding_file: str, residence_file: str, income_tax_file: str,
+                                   income_tax_file_spouse="") -> None:
+    message = EmailMessage()
+    message['subject'] = subject
+    message['from'] = EMAIL
+    message['to'] = to_user_email
+    message.set_content(body_email)
+    files = [birth_file, wedding_file, residence_file, income_tax_file]
+    if income_tax_file_spouse:
+        files.append(income_tax_file_spouse)
+    for file in files:
+        try:
+            if file:
+                if file.startswith('\\'):
+                    path = 'upload' + file
+                else:
+                    path = 'upload\\' + file
+                with open(path, 'rb') as f:
+                    file_data = f.read()
+                    file_name = f.name
+                message.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
+        except FileNotFoundError:
+            continue
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(EMAIL, EMAIL_PASSWORD)
         smtp.send_message(message)

@@ -39,7 +39,7 @@ def request_next_level(_id: str):
     new_level = request.level + 1
 
     if request <= len(groups):
-        update_request({'level': new_level})
+        update_request({'level': new_level}, _id)
         return request
 
     return

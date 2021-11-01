@@ -1,9 +1,9 @@
 from typing import List
-from settings import URL_APP
-from app.tools.send_email import send_email, send_email_app_code
-from app.actions.client_actions import get_client_by_id
+from app.tools.send_email import send_email_app_code
+from app.actions.client_actions import get_client_by_id, send_email_with_activation_code, creating_body_mail
 from app.actions.groups_actions import get_group_by_level
 from settings import SEND_ALL_GROUP, STANDARD_MESSAGE, URL_APP, URL_ACCEPT
+from app.tools.levels_endpoints import links
 import threading
 
 
@@ -31,21 +31,21 @@ def send_alert_group(client_id: str):
 
     if client and group and client.request:
         if SEND_ALL_GROUP:
-            body_message = STANDARD_MESSAGE + '\nUse o link para passar a proposta para o financeiro:' + \
-                           URL_APP + URL_ACCEPT + request.id
-            emails = [user.email for user in group.users]
-            th = threading.Thread(target=send_many_mails,
-                                  kwargs={'emails': emails, 'message': body_message, 'subject': STANDARD_MESSAGE})
-            th.start()
+            data = creating_body_mail(client_id, urls=links.get(group.level)(request.id))
+            send_many_mails(group.users, data)
             return True
         else:
             email = group.email
             if email:
-                send_many_mails([email], STANDARD_MESSAGE, STANDARD_MESSAGE)
+                data = creating_body_mail(client_id, urls=links.get(group.level)(request.id))
+                send_many_mails(email, data)
             return True
     return False
 
 
-def send_many_mails(emails: List, message: str, subject):
-    for email in emails:
-        send_email_app_code(email, message, subject)
+def send_many_mails(users: List or str, data):
+    if isinstance(users, str):
+        return send_email_with_activation_code(users, data)
+
+    for user in users:
+        send_email_with_activation_code(user.email, data)

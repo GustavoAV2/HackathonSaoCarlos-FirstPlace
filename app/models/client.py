@@ -1,8 +1,6 @@
 from uuid import uuid4
-
-from sqlalchemy.orm import relationship, backref
-
 from database import db
+from sqlalchemy.orm import relationship, backref
 
 
 class Client(db.Model):
@@ -19,6 +17,8 @@ class Client(db.Model):
     cpf_or_cnpj = db.Column(db.String(16), nullable=False, unique=True)
     rg = db.Column(db.String(20), nullable=False, unique=False)
     legal_person = db.Column(db.Boolean(), default=True)
+    patrimony = db.Column(db.Integer(), nullable=False)
+    monthly_income = db.Column(db.Integer(), nullable=False)
 
     spouse_id = db.Column(db.Integer, db.ForeignKey('spouse.id'))
     spouse = relationship("Spouse", backref=backref("spouse", uselist=False))
@@ -31,7 +31,13 @@ class Client(db.Model):
 
     def serialize(self):
         return {
-            'id': self.id,
-            'email': self.email,
-            'active': self.active
-        }
+                'id': self.id,
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'cpf_or_cnpj': self.cpf_or_cnpj,
+                'rg': self.rg,
+                'address': self.address,
+                'phone': self.phone,
+                'email': self.email,
+                'active': self.active
+                }
