@@ -1,5 +1,5 @@
 from typing import Dict, Tuple, Any, List
-from app.actions.send_email_actions import send_alert_group
+from app.actions.send_email_actions import send_alert_group, send_client_decline_message, send_commercial_mail
 from flask import Blueprint, jsonify, request, render_template
 from app.actions.client_actions import get_client_by_cpf_or_cnpj
 from app.actions.request_actions import update_request, get_request_by_id, request_next_level
@@ -41,9 +41,11 @@ def approve(id_request) -> Tuple[Any, int]:
 
 @app_request.route('/request/decline/<id_request>', methods=['GET'])
 def decline(id_request) -> Tuple[Any, int]:
-    data = {'approved': False}
+    data = {'approved': False, 'active': False}
     _request = update_request(data, id_request)
     if request:
+        send_commercial_mail(_request.client_id)
+        send_client_decline_message(_request.client.email)
         return render_template('accept_client.html', cpf_or_cnpj=_request.client.cpf_or_cnpj,
                                status=True, message='Solicitação NEGADA!')
     return render_template('accept_client.html', status=False, message='CPF ou CNPJ não existe!')

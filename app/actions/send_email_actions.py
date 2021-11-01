@@ -13,6 +13,12 @@ def send_client_analysis_message(email: str):
     send_email_app_code(email, body_email, subject)
 
 
+def send_client_decline_message(email: str):
+    subject = "Proposta negada!"
+    body_email = "Obrigado por enviar sua solicitacao!\nMas infelizmente sua proposta foi negada."
+    send_email_app_code(email, body_email, subject)
+
+
 def send_client_register_spouse_url(email: str, url: str):
     subject = "Cadastro conjuge"
     body_email = f"Para concluir a solicitacao faça o cadastro do seu conjuge acessando o link abaixo.\n" \
@@ -49,3 +55,26 @@ def send_many_mails(users: List or str, data):
 
     for user in users:
         send_email_with_activation_code(user.email, data)
+
+
+def send_commercial_mail(client_id):
+    client = get_client_by_id(client_id)
+    group = get_group_by_level(1)
+
+    if client and group and client.request:
+        if SEND_ALL_GROUP:
+            for user in group.users:
+                send_email_app_code(user.email, f"Proposta do cliente {client.first_name} {client.last_name}\n"
+                                                f"CPF|CNPJ: {client.cpf_or_cnpj}\n"
+                                                f"Situacao: NEGADA!",
+                                    f"Proposta do cliente {client.last_name}|{client.cpf_or_cnpj} negada!")
+            return True
+        else:
+            email = group.email
+            if email:
+                send_email_app_code(email, f"Proposta do cliente {client.first_name} {client.last_name}\n"
+                                           f"CPF|CNPJ: {client.cpf_or_cnpj}\n"
+                                           f"Situacao: NEGADA!",
+                                    f"Proposta do cliente {client.last_name}|{client.cpf_or_cnpj} negada!")
+            return True
+    return False

@@ -1,15 +1,12 @@
 from sqlalchemy.exc import IntegrityError, InterfaceError
 from typing import Dict
 from uuid import uuid4
-
 from app.actions.actions_file import save_file
-from app.actions.scores_actions import create_client_scores
+from app.actions.scores_actions import create_client_scores, get_score_by_id, get_approvals, get_approval_reasons
 from app.actions.serasa_actions import get_receita_by_cpf, get_receita_by_cnpj
-from app.models.client import Client
 from app.models.client import Client
 from app.tools.send_email import send_email_app_code_attachment
 from app.tools.validate_cep import validate_address
-from database.repository import save, commit
 from database.repository import save, commit
 
 
@@ -76,7 +73,7 @@ def creating_body_mail(client_id: str, urls):
 
                       Avaliação: {approvals.get('approvation')}
                       Avaliação automática de risco: {approvals.get('risk level')} de inadimplência
-                      Motivos: {get_approval_reasons}
+                      Motivos: {get_approval_reasons(score)}
                     """ + urls
     return {'user': user, 'score_data': score_data, 'body': body_email}
 
