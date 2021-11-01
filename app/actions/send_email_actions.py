@@ -1,6 +1,7 @@
 from typing import List
 from app.tools.send_email import send_email_app_code
-from app.actions.client_actions import get_client_by_id, send_email_with_activation_code, creating_body_mail
+from app.actions.client_actions import get_client_by_id, send_email_with_activation_code, creating_body_mail, \
+    creating_success_body_mail
 from app.actions.groups_actions import get_group_by_level
 from settings import SEND_ALL_GROUP, STANDARD_MESSAGE, URL_APP, URL_ACCEPT
 from app.tools.levels_endpoints import links
@@ -44,6 +45,28 @@ def send_alert_group(client_id: str):
             email = group.email
             if email:
                 data = creating_body_mail(client_id, urls=links.get(group.level)(request.id))
+                send_many_mails(email, data)
+            return True
+    return False
+
+
+def send_alert_approve_group(client_id: str):
+    client = get_client_by_id(client_id)
+    request = None
+    if client.request:
+        request = client.request[0]
+
+    group = get_group_by_level(request.level)
+
+    if client and group and client.request:
+        if SEND_ALL_GROUP:
+            data = creating_success_body_mail(client_id, urls=links.get(group.level)(request.id))
+            send_many_mails(group.users, data)
+            return True
+        else:
+            email = group.email
+            if email:
+                data = creating_success_body_mail(client_id, urls=links.get(group.level)(request.id))
                 send_many_mails(email, data)
             return True
     return False

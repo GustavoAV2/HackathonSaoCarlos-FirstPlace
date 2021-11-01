@@ -76,6 +76,32 @@ def creating_body_mail(client_id: str, urls):
     return {'user': user, 'score_data': score_data, 'body': body_email}
 
 
+def creating_success_body_mail(client_id: str, urls):
+    user = get_client_by_id(client_id)
+    score = get_score_by_id(user.score[0].id)
+    approvals = get_approvals(score)
+    score_data = get_the_customer_information(user.cpf_or_cnpj)
+
+    body_email = f""" 
+                    Cliente APROVADO pelo financeiro!
+                    Seguem os dados do cliente:
+
+                      Nome: {user.first_name} {user.last_name}                    
+                      CPF: {user.cpf_or_cnpj}
+                      RG: {user.rg}
+                      Email: {user.email}
+                      Endereço: {user.address}
+                      Cep: {user.cep}
+                      Telefone: {user.phone}
+                      Situação da Receita: {score_data['situacao']}\n
+    
+                      Avaliação: {approvals.get('approvation')}
+                      Avaliação automática de risco: {approvals.get('risk level')} de inadimplência
+                      Motivos: {str(get_approval_reasons(score)).replace('[','').replace(']','')}
+                    """ + urls
+    return {'user': user, 'score_data': score_data, 'body': body_email}
+
+
 def send_email_with_activation_code(email, data):
     client = data.get('user')
     if client.spouse:
