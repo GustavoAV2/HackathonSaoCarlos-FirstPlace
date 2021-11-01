@@ -1,16 +1,16 @@
-from uuid import uuid4
-from typing import Dict
-from app.models.client import Client
 from sqlalchemy.exc import IntegrityError, InterfaceError
+from typing import Dict
+from uuid import uuid4
 
-from app.tools.send_email import send_email_app_code_attachment
-from database.repository import save, commit
 from app.actions.actions_file import save_file
 from app.actions.scores_actions import create_client_scores
+from app.actions.serasa_actions import get_receita_by_cpf, get_receita_by_cnpj
 from app.models.client import Client
+from app.models.client import Client
+from app.tools.send_email import send_email_app_code_attachment
 from app.tools.validate_cep import validate_address
 from database.repository import save, commit
-from app.actions.serasa_actions import get_receita_by_cpf, get_receita_by_cnpj
+from database.repository import save, commit
 
 
 def create_client(data: Dict, files) -> Client or None:
@@ -57,6 +57,8 @@ def get_the_customer_information(cpf_cnpj):
 
 def creating_body_mail(client_id: str, urls):
     user = get_client_by_id(client_id)
+    score = get_score_by_id(user.id)
+    approvals = get_approvals(score)
     score_data = get_the_customer_information(user.cpf_or_cnpj)
 
     body_email = f""" Seguem os dados para aprovação de cadastro:
@@ -71,6 +73,10 @@ def creating_body_mail(client_id: str, urls):
 
                       Score Serasa: {score_data['score']}
                       Situação da Receita: {score_data['situacao']}\n
+
+                      Avaliação: {approvals.get('approvation')}
+                      Avaliação automática de risco: {approvals.get('risk level')} de inadimplência
+                      Motivos: {get_approval_reasons}
                     """ + urls
     return {'user': user, 'score_data': score_data, 'body': body_email}
 
