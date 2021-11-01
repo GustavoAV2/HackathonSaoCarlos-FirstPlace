@@ -1,8 +1,8 @@
-# Obter uma lista de todos os equipamentos presentes nos dados
-# Iterar sobre os equipamentos
-# Preencher os dados do equipamento ( A até o H)
-# Separar cada situação
-# Verificar a quantidade disponível em cada situação
-# Preencher as quantidades 
-# Calcular os totais
-# Adicionar observações
+#
+#
+#
+#
+#
+#
+#
+#
