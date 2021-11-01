@@ -1,0 +1,13 @@
+# Casa própria: 1, 2, 3
+# Total valores dos imoveis: 200.000,00 R$
+# Salário mensal: 4000,00 R$
+ # Trabalho
+ # Outras fontes de renda
+# Carro(modelo): valor tabela fip
+# Situação cadastral cpf: regular
+
+# Patrimonio total:x = ( x  - carro - imoveis) 
+ # Capacidade financeira:
+
+# Relatorio Concentre:
+ # Score Serasa: 950

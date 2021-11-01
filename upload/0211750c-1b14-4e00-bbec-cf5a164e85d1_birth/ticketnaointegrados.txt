@@ -1,0 +1,26 @@
+status nao integrados
+
+focar em maintenance nao preenchido
+https://jsonformatter.curiousconcept.com/#
+https://jsoneditoronline.org/#left=local.qewoju
+
+Z820718 OK
+Z820658 OK
+Z785836 OK
+Z785929 OK
+
+820718
+820658
+785836
+785929
+6253160
+
+
+Z848886 OK
+Z848833 OK
+Z848803 OK
+Z848655 OK
+Z848486 OK
+Z848133 OK
+Z848076 OK
+Z847969 OK
