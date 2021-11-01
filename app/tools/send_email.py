@@ -1,6 +1,7 @@
+import os
 import smtplib
 from typing import NoReturn
-from settings import EMAIL, EMAIL_PASSWORD
+from settings import EMAIL, EMAIL_PASSWORD, FILE_UPLOAD
 from email.message import EmailMessage
 
 
@@ -37,10 +38,18 @@ def send_email_app_code_attachment(to_user_email: str, body_email: str, subject:
     if income_tax_file_spouse:
         files.append(income_tax_file_spouse)
     for file in files:
-        with open(file, 'rb') as f:
-            file_data = f.read()
-            file_name = f.name
-        message.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
+        try:
+            if file:
+                if file.startswith('\\'):
+                    path = 'upload' + file
+                else:
+                    path = 'upload\\' + file
+                with open(path, 'rb') as f:
+                    file_data = f.read()
+                    file_name = f.name
+                message.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
+        except FileNotFoundError:
+            continue
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(EMAIL, EMAIL_PASSWORD)
         smtp.send_message(message)

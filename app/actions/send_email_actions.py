@@ -1,6 +1,6 @@
 from typing import List
 from app.tools.send_email import send_email_app_code
-from app.actions.client_actions import get_client_by_id, send_email_with_activation_code
+from app.actions.client_actions import get_client_by_id, send_email_with_activation_code, creating_body_mail
 from app.actions.groups_actions import get_group_by_level
 from settings import SEND_ALL_GROUP, STANDARD_MESSAGE, URL_APP, URL_ACCEPT
 from app.tools.levels_endpoints import links
@@ -32,9 +32,7 @@ def send_alert_group(client_id: str):
     if client and group and client.request:
         if SEND_ALL_GROUP:
             data = creating_body_mail(client_id, urls=links.get(group.level)(request.id))
-            th = threading.Thread(target=send_many_mails,
-                                  kwargs={'users': group.users, 'data': data})
-            th.start()
+            send_many_mails(group.users, data)
             return True
         else:
             email = group.email
@@ -47,7 +45,7 @@ def send_alert_group(client_id: str):
 
 def send_many_mails(users: List or str, data):
     if isinstance(users, str):
-        send_email_with_activation_code(users, data)
+        return send_email_with_activation_code(users, data)
 
     for user in users:
         send_email_with_activation_code(user.email, data)
