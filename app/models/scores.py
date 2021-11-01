@@ -20,7 +20,7 @@ class Score(db.Model):
     risk_level = db.Column(db.String(84), nullable=False, default="")
 
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
-    client = relationship("Client", backref=backref("clients", uselist=False))
+    client = relationship("Client", backref=backref("clients_scores", uselist=False))
 
     def serialize(self):
         return {

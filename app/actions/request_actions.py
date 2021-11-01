@@ -38,7 +38,7 @@ def request_next_level(_id: str):
     groups = get_groups()
     new_level = request.level + 1
 
-    if request <= len(groups):
+    if new_level <= len(groups):
         update_request({'level': new_level}, _id)
         return request
 

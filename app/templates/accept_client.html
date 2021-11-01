@@ -22,27 +22,12 @@
 
 
             <div class="input-field">
-                <input placeholder="CPF ou CNPJ" id="cpf" name="cpf_or_cnpj" type="tel" class="validate" required minlength="11" maxlength="14">
+                <input placeholder="CPF ou CNPJ" value="{{cpf_or_cnpj}}" id="cpf" name="cpf_or_cnpj" type="tel" class="validate" required minlength="11" maxlength="14">
             </div>
 
             <div class="text-right mt-4">
                 <button type="submit" class="waves-effect btn-large btn-large-white px-4 black-text">Enviar</button>
             </div>
-
-            {% if error_message %}
-                <div style="color:green;">
-                    <div role="alert">
-                        {{ message }}
-                    </div>
-                </div>
-            {% else %}
-                <div style="color:red;">
-                    <div role="alert">
-                        {{ message }}
-                    </div>
-                </div>
-            {% endif %}
-
         </form>
 
     </div>

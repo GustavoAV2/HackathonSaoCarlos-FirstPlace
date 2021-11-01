@@ -95,6 +95,10 @@ def get_client_by_id(_id: str):
     return Client.query.get(_id)
 
 
+def get_client_by_cpf_or_cnpj(cpf_or_cnpj: str):
+    return Client.query.filter(Client.cpf_or_cnpj == cpf_or_cnpj).first()
+
+
 def update_client(client_id: str, data: Dict) -> Client or None:
     try:
         client: Client = get_client_by_id(client_id)
